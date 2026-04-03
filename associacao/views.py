@@ -2,7 +2,6 @@ from django.shortcuts import render
 from .models import Socio
 from django.db import connection
 
-
 def home(request):
     try:
         socios = Socio.objects.all()
