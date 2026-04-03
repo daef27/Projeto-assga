@@ -17,8 +17,18 @@ application = get_wsgi_application()
 
 # MIGRATE AUTOMATICO
 from django.core.management import call_command
+from django.contrib.auth import get_user_model
 
 try:
     call_command('migrate', interactive=False)
+
+    User = get_user_model()
+
+    if not User.objects.filter(username="admin").exists():
+        User.objects.create_superuser(
+            username="admin",
+            email="admin@admin.com",
+            password="admin123"
+        )
 except:
     pass
