@@ -9,7 +9,10 @@
 
 {% for socio in socios %}
 <p>{{ socio.nome }}</p>
+{% empty %}
+<p>Nenhum sócio cadastrado</p>
 {% endfor %}
 
 </body>
+</html>
 </html>
