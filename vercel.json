@@ -2,8 +2,7 @@
   "builds": [
     {
       "src": "core/wsgi.py",
-      "use": "@vercel/python",
-      "config": { "maxLambdaSize": "15mb" }
+      "use": "@vercel/python"
     }
   ],
   "routes": [
@@ -12,5 +11,7 @@
       "dest": "core/wsgi.py"
     }
   ],
-  "buildCommand": "./build_files.sh"
+  "env": {
+    "DISABLE_COLLECTSTATIC": "1"
+  }
 }
