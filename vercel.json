@@ -11,7 +11,5 @@
       "dest": "core/wsgi.py"
     }
   ],
-  "env": {
-    "DISABLE_COLLECTSTATIC": "1"
-  }
+  "buildCommand": "./build_files.sh"
 }
