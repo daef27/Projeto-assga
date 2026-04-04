@@ -1,0 +1,21 @@
+{% extends 'associacao/base.html' %}
+
+{% block content %}
+
+<h2>🤝 Parceiros</h2>
+
+{% for parceiro in parceiros %}
+
+<h3>{{ parceiro.nome }}</h3>
+
+{% if parceiro.logo %}
+<img src="{{ parceiro.logo.url }}" width="200">
+{% endif %}
+
+{% empty %}
+
+<p>Nenhum parceiro cadastrado</p>
+
+{% endfor %}
+
+{% endblock %}

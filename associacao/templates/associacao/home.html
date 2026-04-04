@@ -1,18 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>ASSGA - Sócios</title>
-</head>
-<body>
+{% extends 'associacao/base.html' %}
 
-<h1>Lista de Sócios</h1>
+{% block title %}Home - ASSGA{% endblock %}
 
-{% for socio in socios %}
-<p>{{ socio.nome }}</p>
-{% empty %}
-<p>Nenhum sócio cadastrado</p>
-{% endfor %}
-
-</body>
-</html>
-</html>
+{% block content %}
+<h2>Bem-vindo à ASSGA!</h2>
+<p>Aqui você encontra todas as informações sobre nossos cursos e eventos.</p>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'associacao/base.html' %}
+{% load static %}
+
+{% block title %}Esportes{% endblock %}
+
+{% block content %}
+
+<section class="cursos">
+
+<h2>⚽ Esportes ASSGA</h2>
+
+<div class="cursos-container">
+
+{% for esporte in esportes %}
+
+<div class="curso">
+
+{% if esporte.imagem %}
+<img src="{{ esporte.imagem.url }}">
+{% endif %}
+
+<div class="curso-texto">
+<h3>{{ esporte.nome }}</h3>
+<p>{{ esporte.descricao }}</p>
+</div>
+
+</div>
+
+{% empty %}
+
+<p>Nenhum esporte cadastrado</p>
+
+{% endfor %}
+
+</div>
+
+</section>
+
+{% endblock %}

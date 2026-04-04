@@ -1,0 +1,261 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>{% block title %}ASSGA{% endblock %}</title>
+
+<!-- Favicon -->
+
+<link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family: Arial, Helvetica, sans-serif;
+background: linear-gradient(120deg,#f5f7fb,#eef3ff);
+}
+
+/* HEADER */
+
+header{
+background: linear-gradient(90deg,#0048ff,#00c6ff);
+padding:15px 30px;
+color:white;
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+box-shadow:0 5px 20px rgba(0,0,0,0.1);
+}
+
+.logo{
+font-size:26px;
+font-weight:bold;
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.logo img{
+border-radius:50%;
+}
+
+/* MENU */
+
+nav{
+display:flex;
+gap:15px;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+padding:8px 15px;
+border-radius:8px;
+font-weight:bold;
+transition:.3s;
+}
+
+nav a:hover{
+background:white;
+color:#0048ff;
+transform:translateY(-2px);
+}
+
+/* MENU CELULAR */
+
+.menu-btn{
+display:none;
+font-size:28px;
+cursor:pointer;
+}
+
+/* CONTEÚDO */
+
+main{
+padding:25px;
+min-height:70vh;
+}
+
+/* TEXTO HOME */
+
+.home-text{
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 5px 15px rgba(0,0,0,0.08);
+margin-bottom:30px;
+}
+
+/* TABELAS */
+
+.table-container{
+overflow-x:auto;
+width:100%;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+background:white;
+margin-top:20px;
+border-radius:10px;
+overflow:hidden;
+}
+
+th{
+background:#0048ff;
+color:white;
+padding:12px;
+}
+
+td{
+padding:10px;
+border-bottom:1px solid #ddd;
+}
+
+tr:hover{
+background:#f2f6ff;
+}
+
+/* FOOTER */
+
+footer{
+background: linear-gradient(90deg,#0048ff,#00c6ff);
+color:white;
+text-align:center;
+padding:20px;
+margin-top:30px;
+}
+
+/* RESPONSIVO */
+
+@media(max-width:768px){
+
+.menu-btn{
+display:block;
+}
+
+nav{
+display:none;
+flex-direction:column;
+width:100%;
+margin-top:10px;
+}
+
+nav.active{
+display:flex;
+}
+
+nav a{
+text-align:center;
+background:rgba(255,255,255,0.1);
+}
+
+header{
+flex-direction:column;
+align-items:flex-start;
+}
+
+main{
+padding:15px;
+}
+
+}
+
+/* NOTEBOOK */
+
+@media(min-width:769px) and (max-width:1200px){
+
+.logo{
+font-size:24px;
+}
+
+}
+
+/* TELAS GRANDES */
+
+@media(min-width:1201px){
+
+main{
+max-width:1200px;
+margin:auto;
+}
+
+}
+
+</style>
+
+<script>
+function toggleMenu(){
+document.getElementById("menu").classList.toggle("active");
+}
+</script>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+<img src="{% static 'images/favicon.png' %}" width="40">
+ASSGA
+</div>
+
+<div class="menu-btn" onclick="toggleMenu()">
+☰
+</div>
+
+<nav id="menu">
+<a href="{% url 'home' %}">Home</a>
+<a href="{% url 'noticia' %}">Notícias</a>
+<a href="{% url 'esportes' %}">Esportes</a>
+<a href="{% url 'curso' %}">Curso</a>
+<a href="{% url 'diretoria' %}">Diretoria</a>
+<a href="{% url 'historia' %}">História</a>
+<a href="{% url 'evento' %}">Evento</a>
+<a href="{% url 'parceiros' %}">Parceiros</a>
+
+{% if user.is_authenticated %} <a href="{% url 'logout' %}">Sair</a>
+{% else %} <a href="{% url 'login' %}">Login</a>
+{% endif %}
+
+</nav>
+
+</header>
+
+<main>
+
+<div class="home-text">
+{% block content %}
+Informações importantes sobre a associação, eventos, notícias e muito mais.  
+Fique por dentro de tudo que acontece na ASSGA e participe das nossas atividades!
+{% endblock %}
+</div>
+
+{% block noticias %}
+{% endblock %}
+
+</main>
+
+<footer>
+<p>© 2026 ASSGA - Associação Social</p>
+</footer>
+
+</body>
+</html>

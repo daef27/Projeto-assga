@@ -1,0 +1,53 @@
+{% extends 'associacao/base.html' %}
+
+{% block title %}Inscrição{% endblock %}
+
+{% block content %}
+
+<style>
+
+.form{
+max-width:500px;
+margin:auto;
+background:white;
+padding:30px;
+border-radius:15px;
+}
+
+.form input{
+width:100%;
+padding:12px;
+margin-bottom:15px;
+border-radius:8px;
+border:1px solid #ddd;
+}
+
+.form button{
+width:100%;
+padding:12px;
+background:linear-gradient(90deg,#0048ff,#00c6ff);
+color:white;
+border:none;
+border-radius:8px;
+}
+
+</style>
+
+<div class="form">
+
+<h2>📝 Inscrição ASSGA</h2>
+
+<form method="post">
+{% csrf_token %}
+
+<input name="nome" placeholder="Nome">
+<input name="telefone" placeholder="Telefone">
+<input name="email" placeholder="Email">
+
+<button>Enviar</button>
+
+</form>
+
+</div>
+
+{% endblock %}

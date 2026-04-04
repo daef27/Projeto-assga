@@ -1,0 +1,61 @@
+{% extends 'associacao/base.html' %}
+{% load static %}
+
+{% block title %}História{% endblock %}
+
+{% block content %}
+
+<style>
+
+.historia{
+padding:30px;
+background:white;
+border-radius:15px;
+box-shadow:0 5px 20px rgba(0,0,0,0.08);
+}
+
+.historia h2{
+text-align:center;
+margin-bottom:25px;
+font-size:28px;
+background: linear-gradient(90deg,#0048ff,#00c6ff);
+background-clip:text;
+-webkit-background-clip:text;
+color:transparent;
+}
+
+.historia img{
+width:100%;
+max-height:400px;
+object-fit:cover;
+border-radius:12px;
+margin-bottom:20px;
+}
+
+.historia p{
+line-height:1.7;
+color:#555;
+}
+
+</style>
+
+<div class="historia">
+
+<h2>📖 História da ASSGA</h2>
+
+{% for historia in historias %}
+
+{% if historia.imagem %} <img src="{{ historia.imagem.url }}">
+{% endif %}
+
+<p>{{ historia.texto }}</p>
+
+{% empty %}
+
+<p>Nenhuma história cadastrada.</p>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

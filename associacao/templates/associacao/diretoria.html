@@ -1,0 +1,100 @@
+{% extends 'associacao/base.html' %}
+{% load static %}
+
+{% block title %}Diretoria{% endblock %}
+
+{% block content %}
+
+<style>
+
+.diretoria{
+padding:30px 10px;
+}
+
+.diretoria h2{
+text-align:center;
+margin-bottom:30px;
+font-size:28px;
+background: linear-gradient(90deg,#0048ff,#00c6ff);
+-webkit-background-clip:text;
+background-clip:text;
+color:transparent;
+font-weight:bold;
+}
+
+.diretoria-container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+}
+
+.membro{
+background:white;
+border-radius:15px;
+overflow:hidden;
+box-shadow:0 8px 25px rgba(0,0,0,0.08);
+text-align:center;
+transition:.4s;
+}
+
+.membro:hover{
+transform:translateY(-8px);
+box-shadow:0 15px 35px rgba(0,72,255,0.2);
+}
+
+.membro img{
+width:100%;
+height:220px;
+object-fit:cover;
+}
+
+.membro-texto{
+padding:18px;
+}
+
+.membro-texto h3{
+color:#0048ff;
+margin-bottom:8px;
+}
+
+.membro-texto p{
+color:#555;
+font-weight:bold;
+}
+
+</style>
+
+<section class="diretoria">
+
+<h2>👥 Diretoria ASSGA</h2>
+
+<div class="diretoria-container">
+
+{% for membro in diretoria %}
+
+<div class="membro">
+
+{% if membro.foto %} <img src="{{ membro.foto.url }}">
+{% else %} <img src="{% static 'images/user.png' %}">
+{% endif %}
+
+<div class="membro-texto">
+<h3>{{ membro.nome }}</h3>
+<p>{{ membro.cargo }}</p>
+</div>
+
+</div>
+
+{% empty %}
+
+<p style="text-align:center;width:100%;">
+Nenhum membro cadastrado.
+</p>
+
+{% endfor %}
+
+</div>
+
+</section>
+
+{% endblock %}

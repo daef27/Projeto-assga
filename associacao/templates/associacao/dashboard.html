@@ -1,0 +1,74 @@
+{% extends 'associacao/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<style>
+
+.dashboard{
+padding:30px;
+}
+
+.dashboard-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+}
+
+.card{
+background:linear-gradient(120deg,#0048ff,#00c6ff);
+color:white;
+padding:25px;
+border-radius:15px;
+text-align:center;
+}
+
+.card h2{
+font-size:35px;
+margin-bottom:10px;
+}
+
+</style>
+
+<div class="dashboard">
+
+<h2>📊 Dashboard ASSGA</h2>
+
+<div class="dashboard-grid">
+
+<div class="card">
+<h2>{{ noticias }}</h2>
+Notícias
+</div>
+
+<div class="card">
+<h2>{{ cursos }}</h2>
+Cursos
+</div>
+
+<div class="card">
+<h2>{{ esportes }}</h2>
+Esportes
+</div>
+
+<div class="card">
+<h2>{{ diretoria }}</h2>
+Diretoria
+</div>
+
+<div class="card">
+<h2>{{ eventos }}</h2>
+Eventos
+</div>
+
+<div class="card">
+<h2>{{ parceiros }}</h2>
+Parceiros
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}
