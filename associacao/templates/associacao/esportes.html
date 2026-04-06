@@ -1,39 +1,248 @@
 {% extends 'associacao/base.html' %}
-{% load static %}
 
 {% block title %}Esportes{% endblock %}
 
 {% block content %}
 
-<section class="cursos">
+<style>
 
-<h2>⚽ Esportes ASSGA</h2>
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+}
 
-<div class="cursos-container">
+/* TITULOS */
 
-{% for esporte in esportes %}
+.section-title {
+    text-align: center;
+    margin: 40px 0 20px 0;
+    font-size: 26px;
+    color: #003366;
+    position: relative;
+}
 
-<div class="curso">
+.section-title:after {
+    content: "";
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg,#0d6efd,#00c6ff);
+    display: block;
+    margin: 8px auto;
+    border-radius: 10px;
+}
 
-{% if esporte.imagem %}
-<img src="{{ esporte.imagem.url }}">
+
+/* GRID */
+
+.esportes-grid,
+.clientes-grid,
+.doacoes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+    gap: 25px;
+}
+
+
+/* CARDS */
+
+.card {
+    background: white;
+    padding: 18px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    text-align: center;
+    transition: 0.3s;
+    border-top: 5px solid #0d6efd;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+}
+
+
+/* IMAGEM */
+
+.card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+
+/* TITULO CARD */
+
+.card h3 {
+    color: #003366;
+    margin-bottom: 8px;
+}
+
+
+/* TEXTO */
+
+.card p {
+    color: #555;
+    font-size: 14px;
+}
+
+
+/* CLIENTES */
+
+.clientes-grid .card {
+    border-top: 5px solid #00a65a;
+}
+
+
+/* DOAÇÃO */
+
+.doacoes-grid .card {
+    border-top: 5px solid #ff9800;
+    background: linear-gradient(180deg,#ffffff,#f8fbff);
+}
+
+.qr img {
+    max-width: 160px;
+    margin-top: 10px;
+}
+
+
+/* BOTÃO DOAÇÃO */
+
+.btn-doar {
+    background: #0d6efd;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.btn-doar:hover {
+    background: #003366;
+}
+
+
+/* RESPONSIVO */
+
+@media(max-width:768px){
+
+.section-title {
+    font-size: 22px;
+}
+
+.card img {
+    height: 160px;
+}
+
+}
+
+
+@media(max-width:480px){
+
+.container {
+    padding: 10px;
+}
+
+.card {
+    padding: 15px;
+}
+
+.card img {
+    height: 150px;
+}
+
+}
+
+</style>
+
+
+<div class="container">
+
+
+<h2 class="section-title">🏆 Esportes</h2>
+
+<div class="esportes-grid">
+
+{% for e in esportes %}
+
+<div class="card">
+
+{% if e.imagem %}
+<img src="{{ e.imagem.url }}" alt="{{ e.nome }}">
 {% endif %}
 
-<div class="curso-texto">
-<h3>{{ esporte.nome }}</h3>
-<p>{{ esporte.descricao }}</p>
-</div>
+<h3>{{ e.nome }}</h3>
+<p>{{ e.descricao }}</p>
 
 </div>
-
-{% empty %}
-
-<p>Nenhum esporte cadastrado</p>
 
 {% endfor %}
 
 </div>
 
-</section>
+
+
+
+<h2 class="section-title">🤝 Clientes / Patrocinadores</h2>
+
+<div class="clientes-grid">
+
+{% for c in clientes %}
+
+<div class="card">
+
+{% if c.logo %}
+<img src="{{ c.logo.url }}" alt="{{ c.nome }}">
+{% endif %}
+
+<h3>{{ c.nome }}</h3>
+
+{% if c.site %}
+<a class="btn-doar" href="{{ c.site }}" target="_blank">
+Visitar Site
+</a>
+{% endif %}
+
+</div>
+
+{% endfor %}
+
+</div>
+
+
+
+
+<h2 class="section-title">💚 Ajude com uma Doação</h2>
+
+<div class="doacoes-grid">
+
+{% for d in doacoes %}
+
+<div class="card qr">
+
+<h3>{{ d.nome }}</h3>
+
+<p>Valor sugerido: <strong>R$ {{ d.valor_sugerido }}</strong></p>
+
+{% if d.qr_code %}
+<img src="{{ d.qr_code.url }}" alt="QR Code">
+{% endif %}
+
+<a class="btn-doar">
+Doar Agora
+</a>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
 
 {% endblock %}

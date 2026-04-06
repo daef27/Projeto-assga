@@ -1,8 +1,201 @@
 {% extends 'associacao/base.html' %}
 
-{% block title %}Home - ASSGA{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block content %}
-<h2>Bem-vindo à ASSGA!</h2>
-<p>Aqui você encontra todas as informações sobre nossos cursos e eventos.</p>
+
+<style>
+
+/* Cards gerais */
+.card {
+    background: white;
+    padding: 25px;
+    margin-bottom: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+/* Títulos */
+.card h2 {
+    color: #003366;
+    font-size: 1.8em;
+    margin-bottom: 10px;
+}
+
+.card h3 {
+    color: #003366;
+    font-size: 1.4em;
+    margin-bottom: 15px;
+}
+
+/* Notícias */
+.noticia {
+    background: white;
+    border-radius: 14px;
+    margin-bottom: 30px;
+    overflow: hidden;
+    border-left: 6px solid #010c41;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    transition: 0.3s;
+
+    display: flex;
+    gap: 20px;
+}
+
+.noticia:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+}
+
+/* Imagem */
+.noticia img {
+    width: 320px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* Conteúdo */
+.noticia-conteudo{
+    padding: 15px;
+    flex: 1;
+}
+
+.noticia h4 {
+    color: #003366;
+    margin-bottom: 5px;
+}
+
+/* Data */
+.noticia small {
+    color: #666;
+    display: block;
+    margin-bottom: 10px;
+    font-size: 0.9em;
+}
+
+/* Texto */
+.noticia p {
+    margin-top: 10px;
+    font-size: 1em;
+    line-height: 1.6;
+    text-align: justify;
+    white-space: pre-line;
+    color: #333;
+}
+
+/* Sem notícias */
+.noticia-empty {
+    text-align: center;
+    color: gray;
+    padding: 30px;
+}
+
+
+/* ============================= */
+/* TABLET */
+/* ============================= */
+
+@media (max-width: 900px){
+
+.noticia {
+    flex-direction: column;
+}
+
+.noticia img {
+    width: 100%;
+    height: 250px;
+}
+
+}
+
+
+/* ============================= */
+/* CELULAR */
+/* ============================= */
+
+@media (max-width:600px){
+
+.card {
+    padding: 18px;
+}
+
+.card h2 {
+    font-size: 1.4em;
+}
+
+.card h3 {
+    font-size: 1.2em;
+}
+
+.noticia img {
+    height: 200px;
+}
+
+.noticia p {
+    font-size: 0.95em;
+}
+
+}
+
+</style>
+
+
+<!-- Boas-vindas -->
+<div class="card">
+    <h2>Bem-vindo à ASSGA</h2>
+    <p>Sistema da associação</p>
+</div>
+
+
+<!-- Notícias -->
+<div class="card">
+    <h3>📢 Notícias</h3>
+
+    {% if noticias %}
+        {% for n in noticias %}
+
+        <div class="noticia">
+
+            {% if n.imagem %}
+                <img src="{{ n.imagem.url }}">
+            {% endif %}
+
+            <div class="noticia-conteudo">
+
+                <h4>📰 {{ n.titulo|default:"Sem título" }}</h4>
+
+                <small>
+                    {% if n.data %}
+                        📅 {{ n.data|date:"d/m/Y" }}
+                        ⏰ {{ n.data|date:"H:i" }}
+                    {% else %}
+                        Sem data
+                    {% endif %}
+                </small>
+
+                <p>{{ n.texto|default:"Sem conteúdo" }}</p>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+    {% else %}
+
+        <div class="noticia-empty">
+            <h3>📢 Em breve novidades</h3>
+            <p>As notícias aparecerão aqui</p>
+        </div>
+
+    {% endif %}
+
+</div>
+
 {% endblock %}

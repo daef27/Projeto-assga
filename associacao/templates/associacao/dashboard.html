@@ -16,12 +16,33 @@ grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:20px;
 }
 
+
+/* CARDS */
+
 .card{
 background:linear-gradient(120deg,#0048ff,#00c6ff);
 color:white;
 padding:25px;
+margin-bottom:20px;
 border-radius:15px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+transition:0.3s;
+border-top:5px solid #0d6efd;
+}
+
+.card:hover{
+transform:translateY(-3px);
+box-shadow:0 15px 30px rgba(0,0,0,0.15);
+}
+
+
+/* PERFIL */
+
+.perfil{
 text-align:center;
+background:linear-gradient(135deg,#003366,#0d6efd,#0dcaf0);
+color:white;
+border:none;
 }
 
 .card h2{
@@ -29,45 +50,210 @@ font-size:35px;
 margin-bottom:10px;
 }
 
+
+/* STATUS */
+
+.status{
+font-size:18px;
+font-weight:bold;
+}
+
+
+/* MESES */
+
+.meses{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:12px;
+margin-top:15px;
+}
+
+.mes{
+background:linear-gradient(135deg,#f8f9fa,#eef5ff);
+padding:14px;
+border-radius:10px;
+font-weight:bold;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 4px 8px rgba(0,0,0,0.05);
+}
+
+
+/* CORES */
+
+.pago{
+color:#198754;
+font-weight:bold;
+}
+
+.nao-pago{
+color:#dc3545;
+font-weight:bold;
+}
+
+
+/* HISTORICO */
+
+.historico{
+background:#f8f9fa;
+padding:10px;
+border-radius:8px;
+margin-bottom:8px;
+}
+
+
+/* BOTÃO LOGOUT */
+
+.logout{
+display:block;
+text-align:center;
+padding:14px;
+background:linear-gradient(90deg,#dc3545,#ff6b6b);
+color:white;
+text-decoration:none;
+border-radius:10px;
+font-weight:bold;
+transition:0.3s;
+}
+
+.logout:hover{
+transform:translateY(-2px);
+box-shadow:0 6px 15px rgba(0,0,0,0.2);
+}
+
+
+/* RESPONSIVO */
+
+@media(max-width:600px){
+
+.dashboard{
+padding:10px;
+}
+
+.card{
+padding:18px;
+}
+
+.perfil img{
+width:120px;
+}
+
+}
+
 </style>
+
 
 <div class="dashboard">
 
-<h2>📊 Dashboard ASSGA</h2>
 
-<div class="dashboard-grid">
+<div class="data">
+📅 {{ data_atual }}
+</div>
+
+
+<!-- PERFIL -->
+
+<div class="card perfil">
+
+<h2>{{ socio.nome }}</h2>
+
+<p>🪪 Nº Sócio: {{ socio.numero_socio }}</p>
+
+{% if socio.foto %}
+<img src="{{ socio.foto.url }}" width="150">
+{% endif %}
+
+</div>
+
+
+
+<!-- STATUS -->
 
 <div class="card">
-<h2>{{ noticias }}</h2>
-Notícias
+
+<h3>💰 Status Pagamento</h3>
+
+{% if socio.status_pagamento == "Ativo" %}
+<div class="status pago">
+✅ Sócio Ativo
 </div>
+{% else %}
+<div class="status nao-pago">
+❌ Sócio Inativo
+</div>
+{% endif %}
+
+</div>
+
+
+
+<!-- INVESTIMENTO -->
 
 <div class="card">
-<h2>{{ cursos }}</h2>
-Cursos
+
+<h3>💰 Investimento</h3>
+
+<h2 style="color:#0d6efd">
+R$ {{ socio.investimento }}
+</h2>
+
 </div>
+
+
+
+<!-- MENSALIDADES -->
 
 <div class="card">
-<h2>{{ esportes }}</h2>
-Esportes
+
+<h3>📅 Mensalidades {{ ano_atual }}</h3>
+
+<div class="meses">
+
+{% for mes, valor in pagamentos.items %}
+
+<div class="mes">
+
+{{ mes }}
+
+{% if valor %}
+<span class="pago">✅ Pago</span>
+{% else %}
+<span class="nao-pago">❌ Não Pago</span>
+{% endif %}
+
 </div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+
+
+<!-- HISTÓRICO -->
 
 <div class="card">
-<h2>{{ diretoria }}</h2>
-Diretoria
+
+<h3>📚 Histórico Anual</h3>
+
+{% for h in historicos %}
+
+<div class="historico">
+📅 {{ h.ano }}
 </div>
 
-<div class="card">
-<h2>{{ eventos }}</h2>
-Eventos
-</div>
-
-<div class="card">
-<h2>{{ parceiros }}</h2>
-Parceiros
-</div>
+{% endfor %}
 
 </div>
+
+
+
+<a href="{% url 'logout' %}" class="logout">
+🚪 Sair
+</a>
+
 
 </div>
 

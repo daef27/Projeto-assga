@@ -1,131 +1,153 @@
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
-
-from .models import (
-Noticia,
-Curso,
-Diretoria,
-Esporte,
-Evento,
-Parceiro,
-Historia
-)
+from .models import *
+from datetime import datetime
 
 
-def algo(request):
-    return render(request, 'associacao/algo.html')
-
-
-@login_required
-def dashboard(request):
-
-    total_noticias = Noticia.objects.count()
-    total_cursos = Curso.objects.count()
-    total_eventos = Evento.objects.count()
-    total_parceiros = Parceiro.objects.count()
-    total_diretoria = Diretoria.objects.count()
-
-    context = {
-        'total_noticias': total_noticias,
-        'total_cursos': total_cursos,
-        'total_eventos': total_eventos,
-        'total_parceiros': total_parceiros,
-        'total_diretoria': total_diretoria,
-    }
-
-    return render(request, 'associacao/dashboard.html', context)
-
+# =========================
+# HOME
+# =========================
 
 def home(request):
-    noticias = Noticia.objects.all()[:3]
-    cursos = Curso.objects.all()[:3]
 
-    return render(request,'associacao/home.html',{
-        'noticias': noticias,
-        'cursos': cursos
-    })
-
-
-def noticia(request):
-    noticias = Noticia.objects.all().order_by('-data')
-    return render(request,'associacao/noticia.html',{
-        'noticias': noticias
-    })
-
-
-def curso(request):
-    cursos = Curso.objects.all()
-    return render(request,'associacao/curso.html',{
-        'cursos': cursos
-    })
-
-
-def diretoria(request):
-    diretoria = Diretoria.objects.all()
-    return render(request,'associacao/diretoria.html',{
-        'diretoria': diretoria
-    })
-
-
-def esportes(request):
-    esportes = Esporte.objects.all()
-    return render(request,'associacao/esportes.html',{
-        'esportes': esportes
-    })
-
-
-def evento(request):
-    eventos = Evento.objects.all()
-    return render(request,'associacao/evento.html',{
-        'eventos': eventos
-    })
-
-
-def parceiros(request):
+    noticias = Noticia.objects.all().order_by('-data')[:5]
     parceiros = Parceiro.objects.all()
-    return render(request,'associacao/parceiros.html',{
+
+    return render(request, 'associacao/home.html', {
+        'noticias': noticias,
         'parceiros': parceiros
     })
 
-def historia(request):
-    historias = Historia.objects.all()
-    return render(request, 'associacao/historia.html', {
-        'historias': historias
+
+# =========================
+# CURSOS
+# =========================
+
+def cursos(request):
+
+    cursos = Curso.objects.all()
+    parceiros = Parceiro.objects.all()
+
+    return render(request, 'associacao/cursos.html', {
+        'cursos': cursos,
+        'parceiros': parceiros
     })
 
-def inscricao(request):
-    return render(request, 'associacao/inscricao.html')
 
+# =========================
+# ESPORTES
+# =========================
+
+def esportes(request):
+
+    esportes = Esporte.objects.all()
+    clientes = Cliente.objects.all()
+    doacoes = Doacao.objects.all()
+    parceiros = Parceiro.objects.all()
+
+    return render(request, 'associacao/esportes.html', {
+        'esportes': esportes,
+        'clientes': clientes,
+        'doacoes': doacoes,
+        'parceiros': parceiros
+    })
+
+
+# =========================
+# NOTÍCIAS
+# =========================
+
+def noticias(request):
+
+    noticias = Noticia.objects.all()
+    parceiros = Parceiro.objects.all()
+
+    return render(request, 'associacao/noticias.html', {
+        'noticias': noticias,
+        'parceiros': parceiros
+    })
+
+
+# =========================
+# LOGIN
+# =========================
 
 def login_view(request):
 
-    if request.method == 'POST':
+    parceiros = Parceiro.objects.all()
 
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+    if request.method == "POST":
 
-        user = authenticate(
-            request,
-            username=username,
-            password=password
-        )
+        cpf = request.POST.get('cpf')
+        senha = request.POST.get('senha')
 
-        if user is not None:
-            login(request, user)
-            return redirect('home')
+        try:
+            socio = Socio.objects.get(cpf=cpf, senha=senha)
 
-        else:
-            return render(
-                request,
-                'associacao/login.html',
-                {'erro': 'Usuário ou senha inválidos'}
-            )
+            request.session['socio_id'] = socio.id
 
-    return render(request, 'associacao/login.html')
+            return redirect('dashboard')
 
+        except:
+            return render(request, 'associacao/login.html', {
+                'erro': 'CPF ou senha inválidos',
+                'parceiros': parceiros
+            })
+
+    return render(request, 'associacao/login.html', {
+        'parceiros': parceiros
+    })
+
+
+# =========================
+# DASHBOARD
+# =========================
+
+def dashboard(request):
+
+    socio_id = request.session.get('socio_id')
+
+    if not socio_id:
+        return redirect('login')
+
+    try:
+        socio = Socio.objects.get(id=socio_id)
+    except Socio.DoesNotExist:
+        return redirect('login')
+
+    historicos = Historico.objects.filter(socio=socio)
+
+    pagamentos = {
+        "Janeiro": True,
+        "Fevereiro": False,
+        "Março": True,
+        "Abril": False,
+        "Maio": True,
+        "Junho": False,
+        "Julho": False,
+        "Agosto": False,
+        "Setembro": False,
+        "Outubro": False,
+        "Novembro": False,
+        "Dezembro": False
+    }
+
+    return render(request, 'associacao/dashboard.html', {
+
+        'socio': socio,
+        'historicos': historicos,
+        'pagamentos': pagamentos,
+        'data_atual': datetime.now().strftime("%d/%m/%Y"),
+        'ano_atual': datetime.now().year
+
+    })
+
+
+# =========================
+# LOGOUT
+# =========================
 
 def logout_view(request):
-    logout(request)
+
+    request.session.flush()
+
     return redirect('login')
