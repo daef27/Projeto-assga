@@ -159,4 +159,27 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # DEFAULT ID
 
+# DEFAULT ID
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# LOGGING PARA VERCEL
+
+import sys
+
+if not DEBUG:
+    LOGGING = {
+        "version": 1,
+        "disable_existing_loggers": False,
+        "handlers": {
+            "console": {
+                "class": "logging.StreamHandler",
+                "stream": sys.stdout,
+            },
+        },
+        "root": {
+            "handlers": ["console"],
+            "level": "ERROR",
+        },
+    }
