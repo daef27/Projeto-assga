@@ -21,9 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = "django-insecure-i4&xlji7y^#ieqovz+&g-#$zw14tmdomu77)s7j8lf-63*p6i3"
 
-DEBUG = False
+if os.getenv("VERCEL"):
+    DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [".vercel.app", "localhost", "127.0.0.1"]
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
