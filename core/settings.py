@@ -13,16 +13,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY
 # ========================
 
-SECRET_KEY = "django-insecure-i4&xlji7y^#ieqovz+&g-#$zw14tmdomu77)s7j8lf-63*p6i3"
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY",
+    "django-insecure-i4&xlji7y^#ieqovz+&g-#$zw14tmdomu77)s7j8lf-63*p6i3"
+)
 
-DEBUG = False
+DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = [
     ".vercel.app",
+    ".now.sh",
     "localhost",
     "127.0.0.1",
 ]
-
 
 # ========================
 # LOGIN
@@ -41,6 +44,7 @@ SESSION_COOKIE_SECURE = True
 
 CSRF_TRUSTED_ORIGINS = [
     "https://*.vercel.app",
+    "https://*.now.sh",
 ]
 
 
@@ -111,7 +115,7 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 
 # ========================
-# DATABASE (Vercel seguro)
+# DATABASE
 # ========================
 
 DATABASES = {
@@ -151,7 +155,6 @@ LANGUAGE_CODE = "pt-br"
 TIME_ZONE = "America/Sao_Paulo"
 
 USE_I18N = True
-
 USE_TZ = True
 
 
