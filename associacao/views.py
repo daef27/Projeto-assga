@@ -1,3 +1,4 @@
+from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render, redirect
 from .models import *
 from datetime import datetime
@@ -6,6 +7,10 @@ from datetime import datetime
 # =========================
 # HOME
 # =========================
+
+@staff_member_required
+def adminpainel(request):
+    return render(request, 'associacao/adminpainel.html')
 
 def home(request):
 
