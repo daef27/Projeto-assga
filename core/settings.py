@@ -7,13 +7,7 @@ import sys
 import dj_database_url
 from pathlib import Path
 
-
-# ========================
-# BASE DIR
-# ========================
-
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # ========================
 # SECURITY
@@ -117,14 +111,13 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 
 # ========================
-# DATABASE
+# DATABASE (Vercel seguro)
 # ========================
 
 DATABASES = {
     "default": dj_database_url.config(
-        default="sqlite:///db.sqlite3",
+        default="sqlite:///" + str(BASE_DIR / "db.sqlite3"),
         conn_max_age=600,
-        ssl_require=False
     )
 }
 
@@ -197,7 +190,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # ========================
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-
 USE_X_FORWARDED_HOST = True
 
 
@@ -205,18 +197,17 @@ USE_X_FORWARDED_HOST = True
 # LOGGING
 # ========================
 
-if not DEBUG:
-    LOGGING = {
-        "version": 1,
-        "disable_existing_loggers": False,
-        "handlers": {
-            "console": {
-                "class": "logging.StreamHandler",
-                "stream": sys.stdout,
-            },
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "stream": sys.stdout,
         },
-        "root": {
-            "handlers": ["console"],
-            "level": "ERROR",
-        },
-    }
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "ERROR",
+    },
+}
