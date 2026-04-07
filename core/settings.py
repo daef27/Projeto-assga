@@ -15,7 +15,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = "django-insecure-i4&xlji7y^#ieqovz+&g-#$zw14tmdomu77)s7j8lf-63*p6i3"
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     ".vercel.app",
@@ -197,17 +197,3 @@ USE_X_FORWARDED_HOST = True
 # LOGGING
 # ========================
 
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "handlers": {
-        "console": {
-            "class": "logging.StreamHandler",
-            "stream": sys.stdout,
-        },
-    },
-    "root": {
-        "handlers": ["console"],
-        "level": "ERROR",
-    },
-}
