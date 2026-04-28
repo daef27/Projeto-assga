@@ -3,9 +3,8 @@ Django settings for core project.
 """
 
 import os
-import sys
-import dj_database_url
 from pathlib import Path
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -13,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY
 # ========================
 
-SECRET_KEY = "django-insecure-i4&xlji7y^#ieqovz+&g-#$zw14tmdomu77)s7j8lf-63*p6i3"
+SECRET_KEY = "django-insecure-change-this"
 
 DEBUG = True
 
@@ -23,14 +22,12 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
 ]
 
-
 # ========================
 # LOGIN
 # ========================
 
 LOGIN_REDIRECT_URL = "/adminpainel/"
 LOGIN_URL = "/admin/login/"
-
 
 # ========================
 # SECURITY HTTPS
@@ -42,7 +39,6 @@ SESSION_COOKIE_SECURE = True
 CSRF_TRUSTED_ORIGINS = [
     "https://*.vercel.app",
 ]
-
 
 # ========================
 # APPLICATIONS
@@ -57,7 +53,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "associacao",
 ]
-
 
 # ========================
 # MIDDLEWARE
@@ -74,13 +69,11 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-
 # ========================
 # URLS
 # ========================
 
 ROOT_URLCONF = "core.urls"
-
 
 # ========================
 # TEMPLATES
@@ -102,65 +95,60 @@ TEMPLATES = [
     },
 ]
 
-
 # ========================
 # WSGI
 # ========================
 
 WSGI_APPLICATION = "core.wsgi.application"
 
-
 # ========================
 # DATABASE
 # ========================
 
-DATABASES = {
-    "default": dj_database_url.config(
-        default="sqlite:///" + str(BASE_DIR / "db.sqlite3"),
-        conn_max_age=600,
-    )
-}
+DATABASE_URL = os.environ.get("DATABASE_URL")
 
+if DATABASE_URL and DATABASE_URL.startswith("postgres"):
+    DATABASES = {
+        "default": dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=True
+        )
+    }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 # ========================
 # PASSWORD VALIDATION
 # ========================
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
-    },
+    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
-
 
 # ========================
 # INTERNATIONALIZATION
 # ========================
 
 LANGUAGE_CODE = "pt-br"
-
 TIME_ZONE = "America/Sao_Paulo"
 
 USE_I18N = True
-
 USE_TZ = True
-
 
 # ========================
 # STATIC FILES
 # ========================
 
 STATIC_URL = "/static/"
-
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 STATICFILES_DIRS = [
@@ -169,7 +157,6 @@ STATICFILES_DIRS = [
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-
 # ========================
 # MEDIA FILES
 # ========================
@@ -177,13 +164,11 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-
 # ========================
 # DEFAULT FIELD
 # ========================
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
 
 # ========================
 # VERCEL SETTINGS
@@ -191,9 +176,3 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 USE_X_FORWARDED_HOST = True
-
-
-# ========================
-# LOGGING
-# ========================
-
