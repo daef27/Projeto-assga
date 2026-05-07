@@ -14,7 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = "django-insecure-change-this"
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     ".vercel.app",
@@ -109,12 +109,12 @@ DATABASE_URL = os.environ.get("DATABASE_URL")
 
 if DATABASE_URL and DATABASE_URL.startswith("postgres"):
     DATABASES = {
-        "default": dj_database_url.parse(
-            DATABASE_URL,
+        'default': dj_database_url.parse(
+            os.environ.get("DATABASE_URL"),
             conn_max_age=600,
             ssl_require=True
         )
-    }
+}
 else:
     DATABASES = {
         "default": {
