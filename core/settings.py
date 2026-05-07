@@ -1,12 +1,13 @@
 import os
-import dj_database_url
 from pathlib import Path
+from django.core.exceptions import ImproperlyConfigured
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = "django-secret"
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "django-secret")
 
-DEBUG = True
+DEBUG = os.environ.get("DJANGO_DEBUG", "False").lower() in ("1", "true", "yes")
 
 ALLOWED_HOSTS = ["*"]
 
@@ -59,12 +60,29 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "core.wsgi.application"
 
-# SQLITE
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get("DATABASE_URL")
-    )
-}
+DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
+try:
+    if DATABASE_URL and len(DATABASE_URL) > 20 and "://" in DATABASE_URL:
+        DATABASES = {
+            "default": dj_database_url.parse(DATABASE_URL, conn_max_age=600)
+        }
+    else:
+        raise ValueError("DATABASE_URL is empty or invalid")
+except (ValueError, Exception):
+    if DEBUG:
+        DATABASES = {
+            "default": {
+                "ENGINE": "django.db.backends.sqlite3",
+                "NAME": BASE_DIR / "db.sqlite3",
+            }
+        }
+    else:
+        DATABASES = {
+            "default": {
+                "ENGINE": "django.db.backends.sqlite3",
+                "NAME": "/tmp/db.sqlite3",
+            }
+        }
 
 LANGUAGE_CODE = "pt-br"
 
