@@ -170,58 +170,45 @@ try:
         Esporte,
         Diretoria,
     )
-except Exception:
-    Noticia = None
-    Evento = None
-    Curso = None
-    Parceiro = None
-    Historia = None
-    Esporte = None
-    Diretoria = None
+except:
+    pass
 
 
 def home(request):
 
-    # NOTICIAS
     try:
-        noticias = list(Noticia.objects.all().order_by("-id")) if Noticia else []
-    except Exception:
+        noticias = Noticia.objects.all().order_by("-id")
+    except:
         noticias = []
 
-    # EVENTOS
     try:
-        eventos = list(Evento.objects.all().order_by("-id")) if Evento else []
-    except Exception:
+        eventos = Evento.objects.all().order_by("-id")
+    except:
         eventos = []
 
-    # CURSOS
     try:
-        cursos = list(Curso.objects.all().order_by("-id")) if Curso else []
-    except Exception:
+        cursos = Curso.objects.all().order_by("-id")
+    except:
         cursos = []
 
-    # PARCEIROS
     try:
-        parceiros = list(Parceiro.objects.all().order_by("-id")) if Parceiro else []
-    except Exception:
+        parceiros = Parceiro.objects.all().order_by("-id")
+    except:
         parceiros = []
 
-    # HISTORIAS
     try:
-        historias = list(Historia.objects.all().order_by("-id")) if Historia else []
-    except Exception:
+        historias = Historia.objects.all().order_by("-id")
+    except:
         historias = []
 
-    # ESPORTES
     try:
-        esportes = list(Esporte.objects.all().order_by("-id")) if Esporte else []
-    except Exception:
+        esportes = Esporte.objects.all().order_by("-id")
+    except:
         esportes = []
 
-    # DIRETORIA
     try:
-        diretoria = list(Diretoria.objects.all().order_by("-id")) if Diretoria else []
-    except Exception:
+        diretoria = Diretoria.objects.all().order_by("-id")
+    except:
         diretoria = []
 
     return render(request, "associacao/home.html", {
@@ -233,3 +220,7 @@ def home(request):
         "esportes": esportes,
         "diretoria": diretoria,
     })
+
+
+def adminpainel(request):
+    return render(request, "associacao/adminpainel.html")

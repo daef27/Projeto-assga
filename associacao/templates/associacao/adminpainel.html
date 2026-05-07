@@ -1,107 +1,179 @@
 {% extends 'associacao/base.html' %}
 
-{% block title %}Painel Administrativo{% endblock %}
+{% block title %}Admin Painel{% endblock %}
 
 {% block content %}
 
 <style>
 
-.admin{
-padding:30px;
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:30px;
 }
 
-.admin h2{
-text-align:center;
-margin-bottom:25px;
-color:#003366;
+.title{
+    text-align:center;
+    margin-bottom:40px;
 }
 
-.admin-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
+.title h1{
+    color:#003366;
+    font-size:42px;
+    margin-bottom:10px;
 }
 
-.admin-card{
-background:white;
-padding:25px;
-border-radius:15px;
-box-shadow:0 8px 25px rgba(0,0,0,0.08);
-transition:0.3s;
-text-align:center;
-border-top:5px solid #0d6efd;
+.title p{
+    color:#666;
+    font-size:18px;
 }
 
-.admin-card:hover{
-transform:translateY(-5px);
-box-shadow:0 15px 30px rgba(0,0,0,0.15);
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
 }
 
-.admin-card a{
-text-decoration:none;
-color:#003366;
-font-weight:bold;
+.card{
+    background:white;
+    border-radius:15px;
+    padding:30px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.1);
+    transition:0.3s;
+    text-align:center;
 }
 
-.admin-card h3{
-margin-bottom:10px;
+.card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 8px 20px rgba(0,0,0,0.15);
 }
 
-.logout{
-margin-top:30px;
-display:block;
-text-align:center;
-padding:14px;
-background:linear-gradient(90deg,#dc3545,#ff6b6b);
-color:white;
-border-radius:10px;
-text-decoration:none;
-font-weight:bold;
+.card h2{
+    color:#003366;
+    margin-bottom:15px;
+}
+
+.card p{
+    color:#666;
+    margin-bottom:20px;
+}
+
+.btn{
+    display:inline-block;
+    padding:12px 20px;
+    background:#003366;
+    color:white;
+    text-decoration:none;
+    border-radius:10px;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.btn:hover{
+    background:#0055aa;
 }
 
 </style>
 
-<div class="admin">
+<div class="container">
 
-<h2>⚙️ Painel Administrativo ASSGA</h2>
+    <div class="title">
 
-<div class="admin-grid">
+        <h1>⚙️ Administração ASSGA</h1>
 
-<div class="admin-card">
-<h3>👥 Sócios</h3>
-<a href="/admin/associacao/socio/">Gerenciar Sócios</a>
-</div>
+        <p>
+            Painel administrativo do sistema da associação
+        </p>
 
-<div class="admin-card">
-<h3>📰 Notícias</h3>
-<a href="/admin/associacao/noticia/">Gerenciar Notícias</a>
-</div>
+    </div>
 
-<div class="admin-card">
-<h3>📅 Eventos</h3>
-<a href="/admin/associacao/evento/">Gerenciar Eventos</a>
-</div>
+    <div class="grid">
 
-<div class="admin-card">
-<h3>🎓 Cursos</h3>
-<a href="/admin/associacao/curso/">Gerenciar Cursos</a>
-</div>
+        <div class="card">
 
-<div class="admin-card">
-<h3>🤝 Parceiros</h3>
-<a href="/admin/associacao/parceiro/">Gerenciar Parceiros</a>
-</div>
+            <h2>📰 Notícias</h2>
 
-<div class="admin-card">
-<h3>🏆 Esportes</h3>
-<a href="/admin/associacao/esporte/">Gerenciar Esportes</a>
-</div>
+            <p>
+                Gerenciar notícias do site
+            </p>
 
-</div>
+            <a class="btn" href="/admin/associacao/noticia/">
+                Abrir
+            </a>
 
-<a href="/admin/logout/" class="logout">
-🚪 Sair
-</a>
+        </div>
+
+        <div class="card">
+
+            <h2>📅 Eventos</h2>
+
+            <p>
+                Gerenciar eventos
+            </p>
+
+            <a class="btn" href="/admin/associacao/evento/">
+                Abrir
+            </a>
+
+        </div>
+
+        <div class="card">
+
+            <h2>🎓 Cursos</h2>
+
+            <p>
+                Gerenciar cursos
+            </p>
+
+            <a class="btn" href="/admin/associacao/curso/">
+                Abrir
+            </a>
+
+        </div>
+
+        <div class="card">
+
+            <h2>🤝 Parceiros</h2>
+
+            <p>
+                Gerenciar parceiros
+            </p>
+
+            <a class="btn" href="/admin/associacao/parceiro/">
+                Abrir
+            </a>
+
+        </div>
+
+        <div class="card">
+
+            <h2>🏆 Esportes</h2>
+
+            <p>
+                Gerenciar esportes
+            </p>
+
+            <a class="btn" href="/admin/associacao/esporte/">
+                Abrir
+            </a>
+
+        </div>
+
+        <div class="card">
+
+            <h2>👥 Diretoria</h2>
+
+            <p>
+                Gerenciar diretoria
+            </p>
+
+            <a class="btn" href="/admin/associacao/diretoria/">
+                Abrir
+            </a>
+
+        </div>
+
+    </div>
 
 </div>
 

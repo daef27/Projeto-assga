@@ -5,12 +5,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = "django-secret"
 
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = [
-    ".vercel.app",
-    "127.0.0.1",
-    "localhost",
+ALLOWED_HOSTS = ["*"]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:8000",
+    "http://localhost:8000",
+    "https://projeto-alpha-weld.vercel.app",
 ]
 
 INSTALLED_APPS = [
