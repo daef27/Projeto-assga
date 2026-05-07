@@ -156,3 +156,80 @@ def logout_view(request):
     request.session.flush()
 
     return redirect('login')
+
+
+
+# IMPORTS DOS MODELS
+try:
+    from .models import (
+        Noticia,
+        Evento,
+        Curso,
+        Parceiro,
+        Historia,
+        Esporte,
+        Diretoria,
+    )
+except Exception:
+    Noticia = None
+    Evento = None
+    Curso = None
+    Parceiro = None
+    Historia = None
+    Esporte = None
+    Diretoria = None
+
+
+def home(request):
+
+    # NOTICIAS
+    try:
+        noticias = list(Noticia.objects.all().order_by("-id")) if Noticia else []
+    except Exception:
+        noticias = []
+
+    # EVENTOS
+    try:
+        eventos = list(Evento.objects.all().order_by("-id")) if Evento else []
+    except Exception:
+        eventos = []
+
+    # CURSOS
+    try:
+        cursos = list(Curso.objects.all().order_by("-id")) if Curso else []
+    except Exception:
+        cursos = []
+
+    # PARCEIROS
+    try:
+        parceiros = list(Parceiro.objects.all().order_by("-id")) if Parceiro else []
+    except Exception:
+        parceiros = []
+
+    # HISTORIAS
+    try:
+        historias = list(Historia.objects.all().order_by("-id")) if Historia else []
+    except Exception:
+        historias = []
+
+    # ESPORTES
+    try:
+        esportes = list(Esporte.objects.all().order_by("-id")) if Esporte else []
+    except Exception:
+        esportes = []
+
+    # DIRETORIA
+    try:
+        diretoria = list(Diretoria.objects.all().order_by("-id")) if Diretoria else []
+    except Exception:
+        diretoria = []
+
+    return render(request, "associacao/home.html", {
+        "noticias": noticias,
+        "eventos": eventos,
+        "cursos": cursos,
+        "parceiros": parceiros,
+        "historias": historias,
+        "esportes": esportes,
+        "diretoria": diretoria,
+    })
