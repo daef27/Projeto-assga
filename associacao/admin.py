@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import *
+from .models import Noticia
 
 
 @admin.register(Parceiro)
@@ -9,8 +10,7 @@ class ParceiroAdmin(admin.ModelAdmin):
 
 @admin.register(Noticia)
 class NoticiaAdmin(admin.ModelAdmin):
-    list_display = ('titulo', 'data')
-    search_fields = ('titulo',)
+    list_display = ("titulo",)
 
 
 @admin.register(Curso)

@@ -137,15 +137,15 @@ padding:25px;
 <div class="card-login">
 
 <div class="logo-login">
-<img src="{% static 'images/assga-logo.png' %}">
+    <img src="{% static 'images/assga-logo.png' %}">
 </div>
 
 <h2>🔐 Login do Sócio</h2>
 
 {% if erro %}
-<div class="erro">
+    <div class="erro">
 {{ erro }}
-</div>
+    </div>
 {% endif %}
 
 <form method="POST">
@@ -153,12 +153,12 @@ padding:25px;
 
 <div class="input-group">
 <label>CPF</label>
-<input type="text" name="cpf" placeholder="Digite seu CPF" required>
+    <input type="text" name="cpf" placeholder="Digite seu CPF" required>
 </div>
 
 <div class="input-group">
 <label>Senha</label>
-<input type="password" name="senha" placeholder="Digite sua senha" required>
+    <input type="password" name="senha" placeholder="Digite sua senha" required>
 </div>
 
 <button type="submit" class="btn-login">

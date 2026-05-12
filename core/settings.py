@@ -29,15 +29,14 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
-
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -61,28 +60,35 @@ TEMPLATES = [
 WSGI_APPLICATION = "core.wsgi.application"
 
 DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
+
 try:
-    if DATABASE_URL and len(DATABASE_URL) > 20 and "://" in DATABASE_URL:
+    # Produção (Neon/PostgreSQL)
+    if DATABASE_URL and "://" in DATABASE_URL:
         DATABASES = {
-            "default": dj_database_url.parse(DATABASE_URL, conn_max_age=600)
+            "default": dj_database_url.parse(
+                DATABASE_URL,
+                conn_max_age=600,
+                ssl_require=True
+            )
         }
+
+    # Desenvolvimento local
     else:
-        raise ValueError("DATABASE_URL is empty or invalid")
-except (ValueError, Exception):
-    if DEBUG:
         DATABASES = {
             "default": {
                 "ENGINE": "django.db.backends.sqlite3",
                 "NAME": BASE_DIR / "db.sqlite3",
             }
         }
-    else:
-        DATABASES = {
-            "default": {
-                "ENGINE": "django.db.backends.sqlite3",
-                "NAME": "/tmp/db.sqlite3",
-            }
+
+except Exception:
+    # Fallback segurança
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
         }
+    }
 
 LANGUAGE_CODE = "pt-br"
 
