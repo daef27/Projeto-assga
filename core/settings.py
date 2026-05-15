@@ -61,28 +61,17 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
 
-try:
-    # Produção (Neon/PostgreSQL)
-    if DATABASE_URL and "://" in DATABASE_URL:
-        DATABASES = {
-            "default": dj_database_url.parse(
-                DATABASE_URL,
-                conn_max_age=600,
-                ssl_require=True
-            )
-        }
-
-    # Desenvolvimento local
-    else:
-        DATABASES = {
-            "default": {
-                "ENGINE": "django.db.backends.sqlite3",
-                "NAME": BASE_DIR / "db.sqlite3",
-            }
-        }
-
-except Exception:
-    # Fallback segurança
+# Forçar uso de PostgreSQL em produção
+if DATABASE_URL and "://" in DATABASE_URL:
+    DATABASES = {
+        "default": dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=True
+        )
+    }
+else:
+    # Desenvolvimento local ou erro
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
