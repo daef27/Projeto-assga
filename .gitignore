@@ -1,2 +1,7 @@
 .vercel
 .env*.local
+db.sqlite3
+*.pyc
+__pycache__/
+.venv/
+staticfiles/
