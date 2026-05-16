@@ -1,7 +1,11 @@
 import os
 from pathlib import Path
 from django.core.exceptions import ImproperlyConfigured
-import dj_database_url
+
+try:
+    import dj_database_url
+except ImportError:
+    dj_database_url = None
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -62,7 +66,7 @@ WSGI_APPLICATION = "core.wsgi.application"
 DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
 
 # Forçar uso de PostgreSQL em produção
-if DATABASE_URL and "://" in DATABASE_URL:
+if DATABASE_URL and "://" in DATABASE_URL and dj_database_url:
     DATABASES = {
         "default": dj_database_url.parse(
             DATABASE_URL,
