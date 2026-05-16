@@ -59,29 +59,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "core.wsgi.application"
 
-DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
-
-# Forçar uso de PostgreSQL em produção
-if DATABASE_URL and "://" in DATABASE_URL and "postgres" in DATABASE_URL:
-    try:
-        parsed = urlparse(DATABASE_URL)
-        port = parsed.port if parsed.port else 5432
-        DATABASES = {
-            "default": {
-                "ENGINE": "django.db.backends.postgresql",
-                "NAME": parsed.path[1:] if parsed.path else "postgres",
-                "USER": parsed.username or "postgres",
-                "PASSWORD": parsed.password or "",
-                "HOST": parsed.hostname or "localhost",
-                "PORT": port,
-                "CONN_MAX_AGE": 600,
-                "OPTIONS": {"sslmode": "require"}
-            }
-        }
-    except Exception:
-        DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": BASE_DIR / "db.sqlite3"}}
-else:
-    DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": BASE_DIR / "db.sqlite3"}}
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
+}
 
 LANGUAGE_CODE = "pt-br"
 
