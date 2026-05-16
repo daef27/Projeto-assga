@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from django.core.exceptions import ImproperlyConfigured
+from urllib.parse import urlparse
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -62,14 +63,15 @@ DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
 
 # Forçar uso de PostgreSQL em produção
 if DATABASE_URL and "://" in DATABASE_URL:
+    parsed = urlparse(DATABASE_URL)
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
-            "NAME": DATABASE_URL.split("/")[-1],
-            "USER": DATABASE_URL.split("://")[1].split(":")[0],
-            "PASSWORD": DATABASE_URL.split(":")[2].split("@")[0],
-            "HOST": DATABASE_URL.split("@")[1].split(":")[0],
-            "PORT": DATABASE_URL.split(":")[-1].split("/")[0],
+            "NAME": parsed.path[1:],  # Remove o '/' inicial
+            "USER": parsed.username,
+            "PASSWORD": parsed.password,
+            "HOST": parsed.hostname,
+            "PORT": parsed.port or 5432,
             "CONN_MAX_AGE": 600,
             "OPTIONS": {
                 "sslmode": "require",
