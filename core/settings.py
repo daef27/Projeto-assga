@@ -2,11 +2,6 @@ import os
 from pathlib import Path
 from django.core.exceptions import ImproperlyConfigured
 
-try:
-    import dj_database_url
-except ImportError:
-    dj_database_url = None
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "django-secret")
@@ -66,13 +61,20 @@ WSGI_APPLICATION = "core.wsgi.application"
 DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
 
 # Forçar uso de PostgreSQL em produção
-if DATABASE_URL and "://" in DATABASE_URL and dj_database_url:
+if DATABASE_URL and "://" in DATABASE_URL:
     DATABASES = {
-        "default": dj_database_url.parse(
-            DATABASE_URL,
-            conn_max_age=600,
-            ssl_require=True
-        )
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": DATABASE_URL.split("/")[-1],
+            "USER": DATABASE_URL.split("://")[1].split(":")[0],
+            "PASSWORD": DATABASE_URL.split(":")[2].split("@")[0],
+            "HOST": DATABASE_URL.split("@")[1].split(":")[0],
+            "PORT": DATABASE_URL.split(":")[-1].split("/")[0],
+            "CONN_MAX_AGE": 600,
+            "OPTIONS": {
+                "sslmode": "require",
+            }
+        }
     }
 else:
     # Desenvolvimento local ou erro
