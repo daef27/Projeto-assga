@@ -129,6 +129,12 @@ DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
 if DATABASE_URL:
     try:
         parsed = urlparse(DATABASE_URL)
+        print(f"DATABASE_URL: {DATABASE_URL}")
+        print(f"Parsed hostname: {parsed.hostname}")
+        print(f"Parsed port: {parsed.port}")
+        print(f"Parsed username: {parsed.username}")
+        print(f"Parsed database: {parsed.path}")
+        
         port = parsed.port if parsed.port else 5432
         DATABASES = {
             "default": {
@@ -142,7 +148,8 @@ if DATABASE_URL:
                 "OPTIONS": {"sslmode": "require"}
             }
         }
-    except Exception:
+    except Exception as e:
+        print(f"Error parsing DATABASE_URL: {e}")
         DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": BASE_DIR / "db.sqlite3"}}
 else:
     DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": BASE_DIR / "db.sqlite3"}}
