@@ -72,5 +72,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+
 LOGIN_REDIRECT_URL = "/admin/"
 LOGIN_URL = "/admin/login/"
