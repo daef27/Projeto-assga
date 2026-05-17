@@ -74,5 +74,9 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+]
+
 LOGIN_REDIRECT_URL = "/admin/"
 LOGIN_URL = "/admin/login/"
