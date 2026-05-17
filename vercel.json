@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "buildCommand": "mkdir -p staticfiles && python3 manage.py collectstatic --noinput || true",
-  "outputDirectory": "staticfiles",
-  "routes": [
+  "builds": [
     {
-      "src": "/static/(.*)",
-      "dest": "/static/$1"
-    },
+      "src": "core/wsgi.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
     {
       "src": "/(.*)",
       "dest": "core/wsgi.py"
