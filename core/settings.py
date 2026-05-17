@@ -121,16 +121,12 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
 
-
-
 if DATABASE_URL:
     DATABASES = {
         "default": dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=True)
     }
 else:
-    raise ImproperlyConfigured("DATABASE_URL environment variable not set")
-
-
+    DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": BASE_DIR / "db.sqlite3"}}
 
 LANGUAGE_CODE = "pt-br"
 
