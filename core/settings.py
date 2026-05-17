@@ -1,10 +1,7 @@
 import os
-
 from pathlib import Path
-
 from django.core.exceptions import ImproperlyConfigured
-
-from urllib.parse import urlparse
+import dj_database_url
 
 
 
@@ -128,28 +125,10 @@ DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
 
 if DATABASE_URL:
     try:
-        parsed = urlparse(DATABASE_URL)
-        print(f"DATABASE_URL: {DATABASE_URL}")
-        print(f"Parsed hostname: {parsed.hostname}")
-        print(f"Parsed port: {parsed.port}")
-        print(f"Parsed username: {parsed.username}")
-        print(f"Parsed database: {parsed.path}")
-        
-        port = parsed.port if parsed.port else 5432
         DATABASES = {
-            "default": {
-                "ENGINE": "django.db.backends.postgresql",
-                "NAME": parsed.path[1:] if parsed.path else "postgres",
-                "USER": parsed.username or "postgres",
-                "PASSWORD": parsed.password or "",
-                "HOST": parsed.hostname or "localhost",
-                "PORT": port,
-                "CONN_MAX_AGE": 600,
-                "OPTIONS": {"sslmode": "require"}
-            }
+            "default": dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=True)
         }
-    except Exception as e:
-        print(f"Error parsing DATABASE_URL: {e}")
+    except Exception:
         DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": BASE_DIR / "db.sqlite3"}}
 else:
     DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": BASE_DIR / "db.sqlite3"}}
