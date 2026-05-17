@@ -1,7 +1,11 @@
 import os
 from pathlib import Path
 from django.core.exceptions import ImproperlyConfigured
-import dj_database_url
+
+try:
+    import dj_database_url
+except ImportError:
+    dj_database_url = None
 
 
 
@@ -121,12 +125,12 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
 
-if DATABASE_URL:
+if DATABASE_URL and dj_database_url:
     DATABASES = {
         "default": dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=True)
     }
 else:
-    raise ImproperlyConfigured("DATABASE_URL environment variable not set")
+    raise ImproperlyConfigured("DATABASE_URL environment variable not set or dj_database_url not available")
 
 LANGUAGE_CODE = "pt-br"
 
