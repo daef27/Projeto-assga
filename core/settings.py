@@ -16,7 +16,7 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "django-secret")
 
 
 
-DEBUG = os.environ.get("DJANGO_DEBUG", "False").lower() in ("1", "true", "yes")
+DEBUG = True
 
 
 
