@@ -13,15 +13,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "django-secret")
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "django-insecure-chave-secreta-producao")
 
+DEBUG = os.environ.get("DJANGO_DEBUG", "False").lower() in ("1", "true", "yes")
 
-
-DEBUG = True
-
-
-
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [
+    "projeto-alpha-weld.vercel.app",
+    "localhost",
+    "127.0.0.1",
+]
 
 
 
