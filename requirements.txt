@@ -1,6 +1,5 @@
-dj-database-url
-Django
-psycopg2-binary
-whitenoise
-Pillow
+Django==6.0.5
 gunicorn
+whitenoise
+dj-database-url
+psycopg2-binary
