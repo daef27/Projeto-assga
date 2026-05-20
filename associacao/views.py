@@ -13,20 +13,7 @@ def adminpainel(request):
     return render(request, 'associacao/adminpainel.html')
 
 def home(request):
-    try:
-        noticias = Noticia.objects.all().order_by('-data')[:5]
-    except:
-        noticias = []
-    
-    try:
-        parceiros = Parceiro.objects.all()
-    except:
-        parceiros = []
-
-    return render(request, 'associacao/home.html', {
-        'noticias': noticias,
-        'parceiros': parceiros
-    })
+    return render(request, 'associacao/home.html')
 
 
 # =========================
@@ -34,20 +21,7 @@ def home(request):
 # =========================
 
 def cursos(request):
-    try:
-        cursos = Curso.objects.all()
-    except:
-        cursos = []
-    
-    try:
-        parceiros = Parceiro.objects.all()
-    except:
-        parceiros = []
-
-    return render(request, 'associacao/cursos.html', {
-        'cursos': cursos,
-        'parceiros': parceiros
-    })
+    return render(request, 'associacao/esportes.html')
 
 
 # =========================
@@ -55,32 +29,7 @@ def cursos(request):
 # =========================
 
 def esportes(request):
-    try:
-        esportes = Esporte.objects.all()
-    except:
-        esportes = []
-    
-    try:
-        clientes = Cliente.objects.all()
-    except:
-        clientes = []
-    
-    try:
-        doacoes = Doacao.objects.all()
-    except:
-        doacoes = []
-    
-    try:
-        parceiros = Parceiro.objects.all()
-    except:
-        parceiros = []
-
-    return render(request, 'associacao/esportes.html', {
-        'esportes': esportes,
-        'clientes': clientes,
-        'doacoes': doacoes,
-        'parceiros': parceiros
-    })
+    return render(request, 'associacao/esportes.html')
 
 
 # =========================
@@ -88,20 +37,7 @@ def esportes(request):
 # =========================
 
 def noticias(request):
-    try:
-        noticias = Noticia.objects.all()
-    except:
-        noticias = []
-    
-    try:
-        parceiros = Parceiro.objects.all()
-    except:
-        parceiros = []
-
-    return render(request, 'associacao/noticias.html', {
-        'noticias': noticias,
-        'parceiros': parceiros
-    })
+    return render(request, 'associacao/noticia.html')
 
 
 # =========================
@@ -109,32 +45,7 @@ def noticias(request):
 # =========================
 
 def login_view(request):
-    try:
-        parceiros = Parceiro.objects.all()
-    except:
-        parceiros = []
-
-    if request.method == "POST":
-
-        cpf = request.POST.get('cpf')
-        senha = request.POST.get('senha')
-
-        try:
-            socio = Socio.objects.get(cpf=cpf, senha=senha)
-
-            request.session['socio_id'] = socio.id
-
-            return redirect('dashboard')
-
-        except:
-            return render(request, 'associacao/login.html', {
-                'erro': 'CPF ou senha inválidos',
-                'parceiros': parceiros
-            })
-
-    return render(request, 'associacao/login.html', {
-        'parceiros': parceiros
-    })
+    return render(request, 'associacao/login.html')
 
 
 # =========================
@@ -142,45 +53,7 @@ def login_view(request):
 # =========================
 
 def dashboard(request):
-    socio_id = request.session.get('socio_id')
-
-    if not socio_id:
-        return redirect('login')
-
-    try:
-        socio = Socio.objects.get(id=socio_id)
-    except Socio.DoesNotExist:
-        return redirect('login')
-    except:
-        return redirect('login')
-
-    try:
-        historicos = Historico.objects.filter(socio=socio)
-    except:
-        historicos = []
-
-    pagamentos = {
-        "Janeiro": True,
-        "Fevereiro": False,
-        "Março": True,
-        "Abril": False,
-        "Maio": True,
-        "Junho": False,
-        "Julho": False,
-        "Agosto": False,
-        "Setembro": False,
-        "Outubro": False,
-        "Novembro": False,
-        "Dezembro": False
-    }
-
-    return render(request, 'associacao/dashboard.html', {
-        'socio': socio,
-        'historicos': historicos,
-        'pagamentos': pagamentos,
-        'data_atual': datetime.now().strftime("%d/%m/%Y"),
-        'ano_atual': datetime.now().year
-    })
+    return render(request, 'associacao/dashboard.html')
 
 
 # =========================
@@ -188,7 +61,4 @@ def dashboard(request):
 # =========================
 
 def logout_view(request):
-
-    request.session.flush()
-
     return redirect('login')
