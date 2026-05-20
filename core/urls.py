@@ -1,11 +1,24 @@
 from django.contrib import admin
-from django.urls import path
-from associacao import views
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path('admin/', admin.site.urls),
 
-    path("", views.home, name="home"),
-    path("noticias/", views.noticias, name="noticias"),
-    path("cursos/", views.cursos, name="cursos"),
+    # APP ASSOCIACAO
+    path('', include('associacao.urls')),
 ]
+
+# MEDIA
+if settings.DEBUG:
+    urlpatterns += static(
+        settings.MEDIA_URL,
+        document_root=settings.MEDIA_ROOT
+    )
+
+# STATIC
+urlpatterns += static(
+    settings.STATIC_URL,
+    document_root=settings.STATIC_ROOT
+)
