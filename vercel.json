@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "buildCommand": "bash build.sh",
   "builds": [
     {
       "src": "core/wsgi.py",
@@ -8,11 +9,16 @@
   ],
   "routes": [
     {
+      "src": "/static/(.*)",
+      "dest": "/staticfiles/$1"
+    },
+    {
       "src": "/(.*)",
       "dest": "core/wsgi.py"
     }
   ],
   "env": {
-    "DJANGO_DEBUG": "False"
+    "DJANGO_DEBUG": "False",
+    "DJANGO_SETTINGS_MODULE": "core.settings"
   }
 }
