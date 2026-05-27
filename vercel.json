@@ -1,27 +1,18 @@
 {
   "version": 2,
-  "buildCommand": "bash build.sh",
-  "env": {
-    "DJANGO_DEBUG": "False"
-  },
   "builds": [
     {
       "src": "core/wsgi.py",
-      "use": "@vercel/python@3.1.54",
-      "config": {
-        "maxLambdaSize": "15mb",
-        "runtime": "python3.11"
-      }
+      "use": "@vercel/python"
     }
   ],
   "routes": [
     {
-      "src": "/static/(.*)",
-      "dest": "/staticfiles/$1"
-    },
-    {
       "src": "/(.*)",
       "dest": "core/wsgi.py"
     }
-  ]
+  ],
+  "env": {
+    "DJANGO_DEBUG": "False"
+  }
 }
