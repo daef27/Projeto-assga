@@ -12,7 +12,7 @@ ALLOWED_HOSTS = ["*"]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://projeto-alpha-weld.vercel.app",
-    "https://projeto-2jcewp30s-daef27s-projects.vercel.app",
+    "https://*.vercel.app",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
 ]
