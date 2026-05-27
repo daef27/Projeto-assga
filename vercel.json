@@ -1,12 +1,21 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "core/wsgi.py",
-      "use": "@vercel/python"
+  "buildCommand": "bash build.sh",
+  "env": {
+    "DJANGO_DEBUG": "False"
+  },
+  "functions": {
+    "core/wsgi.py": {
+      "runtime": "python3.11",
+      "memory": 1024,
+      "maxDuration": 60
     }
-  ],
+  },
   "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/staticfiles/$1"
+    },
     {
       "src": "/(.*)",
       "dest": "core/wsgi.py"
