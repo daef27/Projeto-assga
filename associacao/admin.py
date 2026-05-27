@@ -2,22 +2,7 @@ from django.contrib import admin
 from .models import Parceiro, Noticia, Curso, Esporte, Cliente, Doacao, Socio, Historico
 
 
-# =========================
-# CUSTOMIZAÇÃO DO ADMIN
-# =========================
-
-class CustomAdminSite(admin.AdminSite):
-    site_header = "📊 Painel de Administração ASSGA"
-    site_title = "ASSGA Admin"
-    index_title = "Bem-vindo ao Painel de Dados"
-    
-    class Media:
-        css = {
-            'all': ('/static/css/admin_custom.css',)
-        }
-
-
-admin.site = CustomAdminSite()
+# Customizar títulos do admin
 admin.site.site_header = "📊 Painel de Administração ASSGA"
 admin.site.site_title = "ASSGA Admin"
 admin.site.index_title = "Bem-vindo ao Painel de Dados"
