@@ -4,13 +4,16 @@
   "env": {
     "DJANGO_DEBUG": "False"
   },
-  "functions": {
-    "core/wsgi.py": {
-      "runtime": "python3.11",
-      "memory": 1024,
-      "maxDuration": 60
+  "builds": [
+    {
+      "src": "core/wsgi.py",
+      "use": "@vercel/python@3.1.54",
+      "config": {
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.11"
+      }
     }
-  },
+  ],
   "routes": [
     {
       "src": "/static/(.*)",
