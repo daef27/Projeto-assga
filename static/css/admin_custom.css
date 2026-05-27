@@ -1,44 +1,98 @@
 /* ================================
-   CUSTOMIZAÇÃO DO PAINEL DJANGO ADMIN
+   CUSTOMIZAÇÃO SUPER COLORIDA DO ADMIN
    ================================ */
 
 :root {
-    --primary-color: #003366;
-    --secondary-color: #0055aa;
-    --accent-color: #ffc107;
-    --success-color: #28a745;
-    --danger-color: #dc3545;
-    --info-color: #17a2b8;
+    --primary: #003366;
+    --secondary: #0055aa;
+    --accent: #ffc107;
+    --success: #28a745;
+    --danger: #dc3545;
+    --info: #17a2b8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%) !important;
+    color: #333 !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
 }
 
 /* ================================
-   HEADER E NAVBAR
+   HEADER COM GRADIENT COLORIDO
    ================================ */
 
 #header {
-    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)) !important;
-    box-shadow: 0 4px 15px rgba(0, 51, 102, 0.3) !important;
+    background: linear-gradient(90deg, #001a4d, #003366, #0055aa, #0077dd, #00aaff) !important;
+    box-shadow: 0 8px 25px rgba(0, 51, 102, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    padding: 25px 40px !important;
+    border-bottom: 6px solid #ffc107 !important;
+    position: relative !important;
+    overflow: hidden !important;
 }
 
-#header h1, #header h1 a {
+#header::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: radial-gradient(ellipse at 20% 50%, rgba(255, 193, 7, 0.1), transparent) !important;
+    pointer-events: none !important;
+}
+
+#header h1 {
     color: white !important;
-    font-weight: bold;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3) !important;
+    font-weight: 900 !important;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6) !important;
+    font-size: 32px !important;
+    letter-spacing: 1px !important;
+    z-index: 1 !important;
+    position: relative !important;
+}
+
+#header h1 a {
+    color: #ffc107 !important;
+    text-decoration: none !important;
+    transition: all 0.3s !important;
+}
+
+#header h1 a:hover {
+    color: white !important;
+    text-shadow: 0 0 20px rgba(255, 193, 7, 0.8) !important;
 }
 
 #user-tools {
-    background: rgba(255, 255, 255, 0.1) !important;
+    background: rgba(255, 255, 255, 0.15) !important;
     color: white !important;
+    padding: 15px 25px !important;
+    border-radius: 10px !important;
+    backdrop-filter: blur(10px) !important;
+    z-index: 1 !important;
+    position: relative !important;
 }
 
 #user-tools a {
-    color: white !important;
-    transition: 0.3s !important;
+    color: #ffc107 !important;
+    font-weight: 700 !important;
+    margin: 0 15px !important;
+    text-decoration: none !important;
+    padding: 8px 15px !important;
+    border-radius: 6px !important;
+    transition: all 0.3s !important;
+    display: inline-block !important;
 }
 
 #user-tools a:hover {
-    background: rgba(255, 255, 255, 0.2) !important;
-    border-radius: 5px !important;
+    background: rgba(255, 193, 7, 0.4) !important;
+    color: white !important;
+    transform: translateY(-2px) !important;
 }
 
 /* ================================
@@ -46,44 +100,73 @@
    ================================ */
 
 #nav-sidebar {
-    background: linear-gradient(180deg, #f8f9fa, #e9ecef) !important;
-    border-right: 3px solid var(--secondary-color) !important;
+    background: linear-gradient(180deg, #ffffff 0%, #f5f7fa 100%) !important;
+    border-right: 6px solid var(--secondary) !important;
+    box-shadow: 3px 0 15px rgba(0, 51, 102, 0.2) !important;
+    padding: 0 !important;
 }
 
 #nav-sidebar h2 {
-    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)) !important;
+    background: linear-gradient(90deg, #003366, #0055aa, #0077dd) !important;
     color: white !important;
-    padding: 15px !important;
+    padding: 25px 20px !important;
     margin: 0 !important;
-    font-weight: bold !important;
+    font-weight: 900 !important;
+    font-size: 20px !important;
+    border-bottom: 4px solid #ffc107 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
 }
 
-.module h2 {
-    background: linear-gradient(90deg, #0055aa, #0077cc) !important;
-    color: white !important;
-    padding: 12px !important;
-    border-radius: 5px 5px 0 0 !important;
-}
-
-.module ul li a {
-    color: var(--primary-color) !important;
-    padding: 10px 15px !important;
-    border-left: 4px solid transparent !important;
+.module {
+    background: white !important;
+    border: 3px solid #e0e8f5 !important;
+    border-radius: 10px !important;
+    margin: 20px 15px !important;
+    box-shadow: 0 6px 20px rgba(0, 51, 102, 0.12) !important;
+    overflow: hidden !important;
     transition: all 0.3s !important;
 }
 
+.module:hover {
+    box-shadow: 0 10px 30px rgba(0, 51, 102, 0.2) !important;
+    transform: translateY(-3px) !important;
+    border-color: #0055aa !important;
+}
+
+.module h2 {
+    background: linear-gradient(90deg, #0055aa, #0077dd, #00aaff) !important;
+    color: white !important;
+    padding: 18px 25px !important;
+    border-bottom: 4px solid #ffc107 !important;
+    font-weight: 800 !important;
+    font-size: 16px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+.module ul li a {
+    color: #003366 !important;
+    padding: 15px 25px !important;
+    border-left: 6px solid transparent !important;
+    transition: all 0.3s !important;
+    display: block !important;
+    font-weight: 600 !important;
+    border-bottom: 1px solid #f0f4f8 !important;
+}
+
 .module ul li a:hover {
-    background: rgba(0, 85, 170, 0.1) !important;
-    border-left-color: var(--secondary-color) !important;
-    padding-left: 20px !important;
-    color: var(--secondary-color) !important;
+    background: linear-gradient(90deg, rgba(0, 85, 170, 0.15), rgba(0, 119, 221, 0.1)) !important;
+    border-left-color: #ffc107 !important;
+    padding-left: 35px !important;
+    color: #0077dd !important;
 }
 
 .module ul li a.selected {
-    background: rgba(255, 193, 7, 0.2) !important;
-    border-left-color: var(--accent-color) !important;
-    color: var(--secondary-color) !important;
-    font-weight: bold !important;
+    background: linear-gradient(90deg, rgba(255, 193, 7, 0.2), rgba(255, 193, 7, 0.05)) !important;
+    border-left-color: #ffc107 !important;
+    color: #0055aa !important;
+    font-weight: 800 !important;
 }
 
 /* ================================
@@ -92,62 +175,105 @@
 
 #content {
     background: white !important;
+    border-radius: 12px !important;
+    margin: 30px !important;
+    box-shadow: 0 8px 30px rgba(0, 51, 102, 0.15) !important;
+    padding: 40px !important;
 }
 
 .dashboard {
     background: linear-gradient(135deg, #f8f9fa, #e9ecef) !important;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    color: var(--primary-color) !important;
-    font-weight: bold !important;
+h1 {
+    color: #0055aa !important;
+    font-weight: 900 !important;
+    font-size: 28px !important;
+    border-bottom: 4px solid #ffc107 !important;
+    padding-bottom: 15px !important;
+    margin-bottom: 30px !important;
+    text-shadow: 1px 1px 2px rgba(0, 51, 102, 0.1) !important;
+}
+
+h2 {
+    color: #0055aa !important;
+    font-weight: 800 !important;
+    font-size: 22px !important;
+    margin: 30px 0 20px 0 !important;
+    padding-bottom: 10px !important;
+    border-bottom: 3px solid #0077dd !important;
+}
+
+h3, h4, h5, h6 {
+    color: #003366 !important;
+    font-weight: 700 !important;
 }
 
 /* ================================
-   BUTTONS
+   BUTTONS SUPER COLORIDOS
    ================================ */
 
-.button, input[type="submit"], input[type="button"] {
-    background: linear-gradient(90deg, var(--secondary-color), #0077cc) !important;
-    border: none !important;
+.button, input[type="submit"], input[type="button"], a.button {
+    background: linear-gradient(135deg, #0055aa, #0077dd, #00aaff) !important;
+    border: 3px solid #003366 !important;
     color: white !important;
-    padding: 10px 20px !important;
-    border-radius: 5px !important;
+    padding: 14px 28px !important;
+    border-radius: 8px !important;
     cursor: pointer !important;
     transition: all 0.3s !important;
-    font-weight: 600 !important;
+    font-weight: 800 !important;
+    font-size: 15px !important;
+    text-decoration: none !important;
+    display: inline-block !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    box-shadow: 0 4px 15px rgba(0, 85, 170, 0.3) !important;
 }
 
-.button:hover, input[type="submit"]:hover, input[type="button"]:hover {
-    background: linear-gradient(90deg, #0055aa, #003366) !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 4px 12px rgba(0, 51, 102, 0.3) !important;
+.button:hover, input[type="submit"]:hover, input[type="button"]:hover, a.button:hover {
+    background: linear-gradient(135deg, #003366, #0055aa, #0077dd) !important;
+    transform: translateY(-4px) !important;
+    box-shadow: 0 8px 25px rgba(0, 51, 102, 0.5) !important;
+    border-color: #ffc107 !important;
 }
 
 .button.default {
-    background: linear-gradient(90deg, var(--success-color), #20c997) !important;
+    background: linear-gradient(135deg, #28a745, #20c997, #12c886) !important;
+    border-color: #1e7e34 !important;
 }
 
 .button.default:hover {
-    background: linear-gradient(90deg, #218838, #1aa179) !important;
+    background: linear-gradient(135deg, #1e7e34, #28a745, #20c997) !important;
+    box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4) !important;
 }
 
 .submit-row .deletelink {
-    background: linear-gradient(90deg, var(--danger-color), #e83e8c) !important;
+    background: linear-gradient(135deg, #dc3545, #e83e8c, #ff6b9d) !important;
+    border-color: #bd2130 !important;
 }
 
 .submit-row .deletelink:hover {
-    background: linear-gradient(90deg, #c82333, #d63384) !important;
+    background: linear-gradient(135deg, #bd2130, #dc3545, #e83e8c) !important;
+    box-shadow: 0 8px 25px rgba(220, 53, 69, 0.4) !important;
+}
+
+.addlink::before {
+    content: "➕ " !important;
 }
 
 /* ================================
-   TABELAS
+   TABELAS COLORIDAS
    ================================ */
 
 table {
-    border: 1px solid #ddd !important;
-    border-radius: 5px !important;
+    width: 100% !important;
+    border-collapse: collapse !important;
+    border: 3px solid #0055aa !important;
+    border-radius: 10px !important;
     overflow: hidden !important;
+    box-shadow: 0 6px 20px rgba(0, 51, 102, 0.15) !important;
+    margin: 30px 0 !important;
+    background: white !important;
 }
 
 tbody tr:nth-child(odd) {
@@ -155,34 +281,48 @@ tbody tr:nth-child(odd) {
 }
 
 tbody tr:nth-child(even) {
-    background: white !important;
+    background: #ffffff !important;
 }
 
 tbody tr:hover {
-    background: rgba(0, 85, 170, 0.05) !important;
+    background: linear-gradient(90deg, rgba(0, 85, 170, 0.1), rgba(0, 119, 221, 0.08)) !important;
 }
 
 th {
-    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)) !important;
+    background: linear-gradient(90deg, #003366, #0055aa, #0077dd, #00aaff) !important;
     color: white !important;
-    padding: 15px !important;
-    font-weight: bold !important;
+    padding: 20px 15px !important;
+    font-weight: 900 !important;
     text-align: left !important;
+    border-right: 2px solid rgba(255, 193, 7, 0.4) !important;
+    text-transform: uppercase !important;
+    font-size: 13px !important;
+    letter-spacing: 0.5px !important;
+}
+
+th:last-child {
+    border-right: none !important;
 }
 
 th a {
-    color: white !important;
+    color: #ffc107 !important;
     text-decoration: none !important;
+    font-weight: 900 !important;
+    transition: all 0.2s !important;
 }
 
 th a:hover {
-    color: var(--accent-color) !important;
-    text-decoration: underline !important;
+    color: white !important;
+    text-shadow: 0 0 10px rgba(255, 193, 7, 0.6) !important;
 }
 
 td {
-    padding: 12px 15px !important;
+    padding: 18px 15px !important;
     border-bottom: 1px solid #e0e0e0 !important;
+}
+
+tbody tr:last-child td {
+    border-bottom: none !important;
 }
 
 /* ================================
@@ -190,32 +330,42 @@ td {
    ================================ */
 
 .form-row {
-    background: #f8f9fa !important;
-    padding: 15px !important;
-    margin: 10px 0 !important;
-    border-left: 4px solid var(--secondary-color) !important;
-    border-radius: 0 5px 5px 0 !important;
+    background: linear-gradient(90deg, #f8f9fa, #e9ecef) !important;
+    padding: 25px !important;
+    margin: 20px 0 !important;
+    border-left: 6px solid #0055aa !important;
+    border-radius: 0 10px 10px 0 !important;
+    box-shadow: 0 4px 12px rgba(0, 51, 102, 0.1) !important;
 }
 
 .fieldBox {
     background: white !important;
-    border: 1px solid #ddd !important;
-    border-radius: 5px !important;
-    padding: 15px !important;
-    margin: 10px 0 !important;
+    border: 3px solid #e0e8f5 !important;
+    border-radius: 10px !important;
+    padding: 30px !important;
+    margin: 25px 0 !important;
+    box-shadow: 0 6px 20px rgba(0, 51, 102, 0.1) !important;
 }
 
 .fieldBox h2 {
-    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)) !important;
+    background: linear-gradient(90deg, #0055aa, #0077dd) !important;
     color: white !important;
-    margin: -15px -15px 15px -15px !important;
-    padding: 12px 15px !important;
-    border-radius: 4px 4px 0 0 !important;
+    margin: -30px -30px 25px -30px !important;
+    padding: 20px 30px !important;
+    border-radius: 7px 7px 0 0 !important;
+    border-bottom: 4px solid #ffc107 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
 }
 
 label {
-    color: var(--primary-color) !important;
-    font-weight: 600 !important;
+    color: #003366 !important;
+    font-weight: 800 !important;
+    display: block !important;
+    margin-bottom: 10px !important;
+    font-size: 14px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
 }
 
 input[type="text"],
@@ -224,13 +374,17 @@ input[type="password"],
 input[type="number"],
 input[type="date"],
 input[type="datetime-local"],
+input[type="url"],
 textarea,
 select {
-    border: 2px solid #ddd !important;
-    border-radius: 5px !important;
-    padding: 10px !important;
+    border: 3px solid #d0d8e8 !important;
+    border-radius: 8px !important;
+    padding: 14px 18px !important;
     font-size: 14px !important;
     transition: all 0.3s !important;
+    width: 100% !important;
+    margin-bottom: 20px !important;
+    background: #ffffff !important;
 }
 
 input[type="text"]:focus,
@@ -239,62 +393,83 @@ input[type="password"]:focus,
 input[type="number"]:focus,
 input[type="date"]:focus,
 input[type="datetime-local"]:focus,
+input[type="url"]:focus,
 textarea:focus,
 select:focus {
-    border-color: var(--secondary-color) !important;
-    box-shadow: 0 0 8px rgba(0, 85, 170, 0.2) !important;
+    border-color: #0055aa !important;
+    box-shadow: 0 0 16px rgba(0, 85, 170, 0.4), inset 0 0 5px rgba(0, 85, 170, 0.1) !important;
     outline: none !important;
+    background: #f0f7ff !important;
+    transform: translateY(-2px) !important;
+}
+
+textarea {
+    resize: vertical !important;
+    min-height: 150px !important;
+    font-family: 'Courier New', monospace !important;
 }
 
 /* ================================
-   NOTIFICAÇÕES E ALERTAS
+   NOTIFICAÇÕES
    ================================ */
 
+.messagelist {
+    list-style: none !important;
+    margin: 25px 0 !important;
+    padding: 0 !important;
+}
+
 .messagelist li {
-    padding: 15px 20px !important;
-    margin: 10px 0 !important;
-    border-radius: 5px !important;
-    border-left: 5px solid !important;
+    padding: 20px 30px !important;
+    margin: 15px 0 !important;
+    border-radius: 8px !important;
+    border-left: 6px solid !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
 }
 
 .messagelist .success {
-    background: #d4edda !important;
+    background: linear-gradient(90deg, #d4edda, #c3e6cb) !important;
     color: #155724 !important;
-    border-left-color: var(--success-color) !important;
+    border-left-color: #28a745 !important;
+}
+
+.messagelist .success::before {
+    content: "✅ ";
+    margin-right: 10px !important;
 }
 
 .messagelist .error {
-    background: #f8d7da !important;
+    background: linear-gradient(90deg, #f8d7da, #f5c6cb) !important;
     color: #721c24 !important;
-    border-left-color: var(--danger-color) !important;
+    border-left-color: #dc3545 !important;
+}
+
+.messagelist .error::before {
+    content: "❌ ";
+    margin-right: 10px !important;
 }
 
 .messagelist .warning {
-    background: #fff3cd !important;
+    background: linear-gradient(90deg, #fff3cd, #ffeaa7) !important;
     color: #856404 !important;
-    border-left-color: var(--accent-color) !important;
+    border-left-color: #ffc107 !important;
+}
+
+.messagelist .warning::before {
+    content: "⚠️ ";
+    margin-right: 10px !important;
 }
 
 .messagelist .info {
-    background: #d1ecf1 !important;
+    background: linear-gradient(90deg, #d1ecf1, #bee5eb) !important;
     color: #0c5460 !important;
-    border-left-color: var(--info-color) !important;
+    border-left-color: #17a2b8 !important;
 }
 
-/* ================================
-   RESULTADO DE AÇÕES
-   ================================ */
-
-.errornote {
-    background: #f8d7da !important;
-    border: 1px solid #f5c6cb !important;
-    color: #721c24 !important;
-    padding: 15px !important;
-    border-radius: 5px !important;
-}
-
-.errornote:before {
-    content: "⚠️ ";
+.messagelist .info::before {
+    content: "ℹ️ ";
+    margin-right: 10px !important;
 }
 
 /* ================================
@@ -302,29 +477,40 @@ select:focus {
    ================================ */
 
 .paginator {
-    margin: 20px 0 !important;
+    margin: 40px 0 !important;
     text-align: center !important;
+    padding: 30px 25px !important;
+    background: linear-gradient(90deg, #f8f9fa, #e9ecef) !important;
+    border-radius: 10px !important;
+    border: 2px solid #0055aa !important;
 }
 
 .paginator a, .paginator span {
-    padding: 8px 12px !important;
-    margin: 0 3px !important;
-    border: 1px solid #ddd !important;
-    border-radius: 5px !important;
+    padding: 12px 16px !important;
+    margin: 0 6px !important;
+    border: 3px solid #0055aa !important;
+    border-radius: 6px !important;
     background: white !important;
-    color: var(--primary-color) !important;
+    color: #0055aa !important;
     text-decoration: none !important;
     transition: all 0.3s !important;
+    font-weight: 700 !important;
+    display: inline-block !important;
 }
 
 .paginator a:hover {
-    background: linear-gradient(90deg, var(--secondary-color), #0077cc) !important;
+    background: linear-gradient(90deg, #0055aa, #0077dd) !important;
     color: white !important;
-    border-color: var(--secondary-color) !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 6px 18px rgba(0, 51, 102, 0.3) !important;
 }
 
-.paginator .step-links {
-    font-weight: bold !important;
+.paginator .this-page {
+    background: linear-gradient(90deg, #ffc107, #ffb300) !important;
+    color: #333 !important;
+    border-color: #ff9500 !important;
+    font-weight: 900 !important;
+    cursor: default !important;
 }
 
 /* ================================
@@ -332,8 +518,25 @@ select:focus {
    ================================ */
 
 @media (max-width: 768px) {
-    .button, input[type="submit"] {
+    .button, input[type="submit"], a.button {
         width: 100% !important;
-        margin: 5px 0 !important;
+        margin: 10px 0 !important;
+    }
+    
+    #content {
+        margin: 15px !important;
+        padding: 20px !important;
+    }
+    
+    #header {
+        padding: 15px 20px !important;
+    }
+    
+    table {
+        font-size: 12px !important;
+    }
+    
+    th, td {
+        padding: 10px 8px !important;
     }
 }
