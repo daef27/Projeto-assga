@@ -8,14 +8,27 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-dev-key-change-in-pro
 
 DEBUG = os.environ.get("DEBUG", "True").lower() in ("true", "1", "yes")
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    ".app.github.dev",
+    ".vercel.app",
+    "projeto-alpha-weld.vercel.app",
+]
 
+# CSRF trusted origins (prod Vercel + local dev + Codespaces)
 CSRF_TRUSTED_ORIGINS = [
     "https://projeto-alpha-weld.vercel.app",
     "https://*.vercel.app",
     "http://localhost:8000",
+    "https://localhost:8000",
     "http://127.0.0.1:8000",
+    "https://*.app.github.dev",
 ]
+
+# Proxy settings (useful when behind Vercel or Codespaces forwarding)
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+USE_X_FORWARDED_HOST = True
 
 INSTALLED_APPS = [
     "django.contrib.admin",
