@@ -44,21 +44,10 @@ def noticias(request):
 # LOGIN
 # =========================
 
-def login_view(request):
-    return render(request, 'associacao/login.html')
-
-
 # =========================
 # DASHBOARD
 # =========================
-
-def dashboard(request):
-    return render(request, 'associacao/dashboard.html')
-
-
 # =========================
 # LOGOUT
 # =========================
 
-def logout_view(request):
-    return redirect('login')
