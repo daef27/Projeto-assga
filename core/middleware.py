@@ -1,5 +1,6 @@
 import base64
 from django.conf import settings
+from django.contrib.auth import get_user_model, login
 from django.http import HttpResponse
 from django.utils.deprecation import MiddlewareMixin
 
@@ -17,7 +18,7 @@ class BasicAuthMiddleware(MiddlewareMixin):
     - BASIC_AUTH_USER
     - BASIC_AUTH_PASSWORD
 
-    Leaves static and media URLs accessible without auth.
+    Protects only admin URLs and logs in a Django admin user automatically.
     """
 
     def process_request(self, request):
@@ -52,7 +53,34 @@ class BasicAuthMiddleware(MiddlewareMixin):
             return _unauthorized()
 
         user, passwd = decoded.split(':', 1)
-        if user == getattr(settings, 'BASIC_AUTH_USER', '') and passwd == getattr(settings, 'BASIC_AUTH_PASSWORD', ''):
+        if user != getattr(settings, 'BASIC_AUTH_USER', '') or passwd != getattr(settings, 'BASIC_AUTH_PASSWORD', ''):
+            return _unauthorized()
+
+        if hasattr(request, 'user') and request.user.is_authenticated:
             return None
 
-        return _unauthorized()
+        UserModel = get_user_model()
+        try:
+            django_user = UserModel.objects.get(username=user)
+        except UserModel.DoesNotExist:
+            django_user = UserModel.objects.create(
+                username=user,
+                is_staff=True,
+                is_superuser=True,
+                is_active=True,
+            )
+            django_user.set_unusable_password()
+            django_user.save()
+        else:
+            changed = False
+            if not django_user.is_staff:
+                django_user.is_staff = True
+                changed = True
+            if not django_user.is_active:
+                django_user.is_active = True
+                changed = True
+            if changed:
+                django_user.save()
+
+        login(request, django_user)
+        return None
