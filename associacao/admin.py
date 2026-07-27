@@ -120,11 +120,11 @@ class SocioAdmin(admin.ModelAdmin):
         ('Status e Investimento', {
             'fields': ('status_pagamento', 'investimento')
         }),
-        ('Segurança', {
-            'fields': ('senha',)
-        }),
     )
-    
+
+    # O campo senha não é usado para login público do site, então não expomos no admin.
+    exclude = ('senha',)
+
     def tem_foto(self, obj):
         return '✅ Sim' if obj.foto else '❌ Não'
     tem_foto.short_description = 'Tem Foto'
