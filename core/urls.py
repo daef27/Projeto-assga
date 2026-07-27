@@ -1,11 +1,14 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     # Admin (protected via Basic Auth middleware)
     path('admin/', admin.site.urls),
+    # Redirect legacy /login/ to admin login
+    path('login/', RedirectView.as_view(url='/admin/login/', permanent=False), name='login'),
 
     # APP ASSOCIACAO
     path('', include('associacao.urls')),
