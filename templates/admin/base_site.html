@@ -1,0 +1,33 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/admin_custom.css' %}">
+    <style>
+    /* Ajustes rápidos para um visual mais limpo no admin */
+    .module a { text-decoration: none; }
+    .dashboard-container { padding: 16px 8px; }
+    .app-list .module { display:inline-block; vertical-align: top; margin: 8px; width: 28%; box-sizing: border-box; }
+    .app-list .module h2 { font-size: 1.05em; margin-bottom: 8px; }
+    .module ul { max-height: 240px; overflow: auto; }
+    @media (max-width: 900px) {
+        .app-list .module { width: 48%; }
+    }
+    @media (max-width: 520px) {
+        .app-list .module { width: 100%; }
+    }
+    </style>
+{% endblock %}
+
+{% block title %}{{ site_title|default:_('ASSGA Admin') }}{% endblock %}
+
+{% block sitebranding %}
+<h1 id="site-name"><a href="/admin/">Painel de Administração ASSGA</a></h1>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    {{ block.super }}
+</div>
+{% endblock %}
