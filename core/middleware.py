@@ -24,7 +24,12 @@ class BasicAuthMiddleware(MiddlewareMixin):
         if not getattr(settings, 'ENABLE_BASIC_AUTH', False):
             return None
 
-        # allow static/media files
+        # Only protect admin URLs. Keep public site and assets accessible.
+        # Admin may be mounted at '/admin' (covers '/admin' and '/admin/...').
+        if not request.path.startswith('/admin'):
+            return None
+
+        # allow static/media files (in case static is served under /admin/...)
         static_url = getattr(settings, 'STATIC_URL', '/static/')
         media_url = getattr(settings, 'MEDIA_URL', '/media/')
         if request.path.startswith(static_url) or request.path.startswith(media_url):
