@@ -45,7 +45,17 @@ def noticias(request):
 # =========================
 
 # =========================
-# DASHBOARD
+# DASHBOARD / CARTEIRA
+# =========================
+
+def carteira(request):
+    return render(request, 'associacao/dashboard.html')
+
+
+def logout_view(request):
+    return redirect('home')
+
+
 # =========================
 # =========================
 # LOGOUT
