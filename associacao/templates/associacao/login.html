@@ -1,0 +1,73 @@
+{% extends 'associacao/base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block favicon %}
+<link rel="icon" href="data:,">
+{% endblock %}
+
+{% block content %}
+
+<style>
+.form {
+    max-width: 500px;
+    margin: auto;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+}
+
+.form input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.form button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(90deg, #0048ff, #00c6ff);
+    color: white;
+    border: none;
+    border-radius: 8px;
+}
+
+.message {
+    margin-bottom: 15px;
+    padding: 12px;
+    color: #842029;
+    background: #f8d7da;
+    border: 1px solid #f5c2c7;
+    border-radius: 8px;
+}
+
+.success {
+    margin-bottom: 15px;
+    padding: 12px;
+    color: #0f5132;
+    background: #d1e7dd;
+    border: 1px solid #badbcc;
+    border-radius: 8px;
+}
+
+</style>
+
+<div class="form">
+    <h2>🔒 Login de Sócio</h2>
+
+    {% if message %}
+        <div class="message">{{ message }}</div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <input name="cpf" placeholder="CPF" required>
+        <input type="password" name="senha" placeholder="Senha" required>
+        <button type="submit">Entrar</button>
+    </form>
+
+</div>
+
+{% endblock %}

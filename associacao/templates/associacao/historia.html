@@ -18,10 +18,7 @@ box-shadow:0 5px 20px rgba(0,0,0,0.08);
 text-align:center;
 margin-bottom:25px;
 font-size:28px;
-background: linear-gradient(90deg,#0048ff,#00c6ff);
-background-clip:text;
--webkit-background-clip:text;
-color:transparent;
+color:#003366;
 }
 
 .historia img{
@@ -45,10 +42,18 @@ color:#555;
 
 {% for historia in historias %}
 
-{% if historia.imagem %} <img src="{{ historia.imagem.url }}">
-{% endif %}
+    {% if historia.imagem %}
+        <img src="{{ historia.imagem.url }}" alt="{{ historia.titulo|default:'História' }}">
+    {% endif %}
 
-<p>{{ historia.texto }}</p>
+    {% if historia.titulo %}
+        <h3>{{ historia.titulo }}</h3>
+    {% endif %}
+
+    <small>📅 {{ historia.data|date:"d/m/Y" }} ⏰ {{ historia.data|time:"H:i" }}</small>
+
+    <p>{{ historia.texto }}</p>
+    <hr style="margin:30px 0; border:none; border-top:1px solid #eee;">
 
 {% empty %}
 

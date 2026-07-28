@@ -28,6 +28,19 @@ class Noticia(models.Model):
 
 
 # =========================
+# HISTÓRIA
+
+class Historia(models.Model):
+    titulo = models.CharField(max_length=200, blank=True)
+    texto = models.TextField()
+    imagem = models.ImageField(upload_to='historias/', blank=True, null=True)
+    data = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.titulo or f"História {self.id}"
+
+
+# =========================
 # CURSOS
 # =========================
 
@@ -104,6 +117,19 @@ class Socio(models.Model):
         default="Inativo"
     )
 
+    pagamento_janeiro = models.BooleanField(default=False)
+    pagamento_fevereiro = models.BooleanField(default=False)
+    pagamento_marco = models.BooleanField(default=False)
+    pagamento_abril = models.BooleanField(default=False)
+    pagamento_maio = models.BooleanField(default=False)
+    pagamento_junho = models.BooleanField(default=False)
+    pagamento_julho = models.BooleanField(default=False)
+    pagamento_agosto = models.BooleanField(default=False)
+    pagamento_setembro = models.BooleanField(default=False)
+    pagamento_outubro = models.BooleanField(default=False)
+    pagamento_novembro = models.BooleanField(default=False)
+    pagamento_dezembro = models.BooleanField(default=False)
+
     investimento = models.DecimalField(
         max_digits=8,
         decimal_places=2,
@@ -118,9 +144,24 @@ class Socio(models.Model):
 # HISTÓRICO
 # =========================
 
+from django.utils import timezone
+
 class Historico(models.Model):
     socio = models.ForeignKey(Socio, on_delete=models.CASCADE)
     ano = models.IntegerField()
+    texto = models.TextField(blank=True, null=True)
+    imagem = models.ImageField(upload_to='historicos/', blank=True, null=True)
+    data = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f"{self.socio.nome} - {self.ano}"
+
+class IdentificacaoLog(models.Model):
+    path = models.CharField(max_length=255)
+    method = models.CharField(max_length=10)
+    remote_addr = models.CharField(max_length=100, blank=True, null=True)
+    user_agent = models.TextField(blank=True, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.timestamp} {self.path}"

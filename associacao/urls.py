@@ -7,8 +7,12 @@ urlpatterns = [
     path('cursos/', views.cursos, name="cursos"),
     path('esportes/', views.esportes, name="esportes"),
     path('noticias/', views.noticias, name="noticias"),
+    path('noticias/<int:noticia_id>/', views.noticia_detalhe, name="noticia_detalhe"),
+    path('historia/', views.historia, name="historia"),
+    path('inscricao/', views.inscricao, name="inscricao"),
+    path('login/', views.socio_login, name="login"),
     path('carteira/', views.carteira, name="carteira"),
-    path('identificacao/', views.carteira, name="identificacao"),
+    path('identificacao/', views.identificacao, name="identificacao"),
     path('logout/', views.logout_view, name="logout"),
 
     # Login, dashboard and adminpanel removed

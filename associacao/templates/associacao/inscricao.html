@@ -37,16 +37,28 @@ border-radius:8px;
 
 <h2>📝 Inscrição ASSGA</h2>
 
+{% if message %}
+    <div class="message">{{ message }}</div>
+{% endif %}
+
+{% if success %}
+    <div class="success">{{ success }}</div>
+{% endif %}
+
 <form method="post">
 {% csrf_token %}
 
-<input name="nome" placeholder="Nome">
+<input name="nome" placeholder="Nome" required>
+<input name="cpf" placeholder="CPF" required>
+<input type="password" name="senha" placeholder="Senha" required>
+<input type="password" name="confirmar_senha" placeholder="Confirmar Senha" required>
 <input name="telefone" placeholder="Telefone">
 <input name="email" placeholder="Email">
 
-<button>Enviar</button>
+<button>Registrar</button>
 
 </form>
+
 
 </div>
 

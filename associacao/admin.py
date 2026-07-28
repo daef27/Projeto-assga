@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Parceiro, Noticia, Curso, Esporte, Cliente, Doacao, Socio, Historico
+from .models import Parceiro, Noticia, Historia, Curso, Esporte, Cliente, Doacao, Socio, Historico, IdentificacaoLog
 
 
 # Customizar títulos do admin
@@ -104,26 +104,59 @@ class DoacaoAdmin(admin.ModelAdmin):
 
 
 # =========================
+# HISTÓRIA
+
+@admin.register(Historia)
+class HistoriaAdmin(admin.ModelAdmin):
+    list_display = ('titulo', 'data', 'tem_imagem')
+    search_fields = ('titulo', 'texto')
+    list_filter = ('data',)
+    ordering = ('-data',)
+
+    def tem_imagem(self, obj):
+        return '✅ Sim' if obj.imagem else '❌ Não'
+    tem_imagem.short_description = 'Tem Imagem'
+
+
+# =========================
 # SÓCIOS
 # =========================
 @admin.register(Socio)
 class SocioAdmin(admin.ModelAdmin):
-    list_display = ('numero_socio', 'nome', 'status_pagamento', 'investimento', 'tem_foto')
+    list_display = ('numero_socio', 'nome', 'cpf', 'status_pagamento', 'investimento', 'tem_foto')
     list_filter = ('status_pagamento',)
     search_fields = ('nome', 'numero_socio', 'cpf')
-    readonly_fields = ('cpf', 'numero_socio')
     ordering = ('numero_socio',)
     fieldsets = (
         ('Informações Pessoais', {
-            'fields': ('nome', 'cpf', 'numero_socio', 'foto')
+            'fields': ('nome', 'cpf', 'senha', 'numero_socio', 'foto')
         }),
         ('Status e Investimento', {
             'fields': ('status_pagamento', 'investimento')
         }),
+        ('Mensalidades (Janeiro a Dezembro)', {
+            'fields': (
+                'pagamento_janeiro',
+                'pagamento_fevereiro',
+                'pagamento_marco',
+                'pagamento_abril',
+                'pagamento_maio',
+                'pagamento_junho',
+                'pagamento_julho',
+                'pagamento_agosto',
+                'pagamento_setembro',
+                'pagamento_outubro',
+                'pagamento_novembro',
+                'pagamento_dezembro',
+            )
+        }),
     )
 
-    # O campo senha não é usado para login público do site, então não expomos no admin.
-    exclude = ('senha',)
+    def save_model(self, request, obj, form, change):
+        if not obj.numero_socio:
+            last = Socio.objects.order_by('-id').first()
+            obj.numero_socio = str(int(last.numero_socio) + 1) if last and last.numero_socio.isdigit() else '1001'
+        super().save_model(request, obj, form, change)
 
     def tem_foto(self, obj):
         return '✅ Sim' if obj.foto else '❌ Não'
@@ -135,11 +168,22 @@ class SocioAdmin(admin.ModelAdmin):
 # =========================
 @admin.register(Historico)
 class HistoricoAdmin(admin.ModelAdmin):
-    list_display = ('socio_nome', 'ano')
-    list_filter = ('ano',)
-    search_fields = ('socio__nome', 'ano')
-    ordering = ('-ano', 'socio')
-    
-    def socio_nome(self, obj):
-        return obj.socio.nome
-    socio_nome.short_description = 'Sócio'
+    list_display = ('ano', 'data', 'tem_imagem')
+    list_filter = ('ano', 'data')
+    search_fields = ('socio__nome', 'ano', 'texto')
+    ordering = ('-data', 'socio')
+    fields = ('socio', 'ano', 'data', 'texto', 'imagem')
+    readonly_fields = ()
+
+    def tem_imagem(self, obj):
+        return '✅ Sim' if obj.imagem else '❌ Não'
+    tem_imagem.short_description = 'Tem Imagem'
+
+
+@admin.register(IdentificacaoLog)
+class IdentificacaoLogAdmin(admin.ModelAdmin):
+    list_display = ('path', 'method', 'remote_addr', 'timestamp')
+    list_filter = ('method', 'path', 'timestamp')
+    search_fields = ('path', 'remote_addr', 'user_agent')
+    readonly_fields = ('path', 'method', 'remote_addr', 'user_agent', 'timestamp')
+    ordering = ('-timestamp',)
