@@ -249,6 +249,18 @@ R$ {{ socio.investimento }}
 
 </div>
 
+<div class="card">
+    <h3>👥 Sócios Registrados</h3>
+    {% if socios %}
+        <ul>
+            {% for s in socios %}
+                <li>{{ s.numero_socio }} - {{ s.nome }}{% if s.status_pagamento == 'Ativo' %} ✅{% else %} ❌{% endif %}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Nenhum sócio cadastrado ainda.</p>
+    {% endif %}
+</div>
 
 
 <a href="{% url 'logout' %}" class="logout">
