@@ -12,6 +12,7 @@ ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
     ".app.github.dev",
+    "friendly-space-engine-pjvqpwwr5p66h94vg-8000.app.github.dev",
     ".vercel.app",
     "projeto-alpha-weld.vercel.app",
 ]
@@ -24,6 +25,7 @@ CSRF_TRUSTED_ORIGINS = [
     "https://localhost:8000",
     "http://127.0.0.1:8000",
     "https://*.app.github.dev",
+    "https://friendly-space-engine-pjvqpwwr5p66h94vg-8000.app.github.dev",
 ]
 
 # Proxy settings (useful when behind Vercel or Codespaces forwarding)
@@ -48,7 +50,6 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "core.middleware.BasicAuthMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]

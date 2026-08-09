@@ -1,17 +1,14 @@
 {
   "version": 2,
-  "outputDirectory": "public",
   "buildCommand": "bash build.sh",
-  "builds": [
-    {
-      "src": "core/wsgi.py",
-      "use": "@vercel/python"
-    }
-  ],
   "routes": [
     {
       "src": "/static/(.*)",
       "dest": "/staticfiles/$1"
+    },
+    {
+      "src": "/media/(.*)",
+      "dest": "/media/$1"
     },
     {
       "src": "/(.*)",
@@ -19,7 +16,7 @@
     }
   ],
   "env": {
-    "DJANGO_DEBUG": "False",
+    "DEBUG": "False",
     "DJANGO_SETTINGS_MODULE": "core.settings"
   }
 }

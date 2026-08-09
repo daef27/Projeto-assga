@@ -1,5 +1,5 @@
-from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.admin.views.decorators import staff_member_required
 from .models import *
 from datetime import datetime
 
@@ -30,7 +30,32 @@ def cursos(request):
 # =========================
 
 def esportes(request):
-    return render(request, 'associacao/esportes.html')
+    esportes = Esporte.objects.all()
+    clientes = Cliente.objects.all()
+    doacoes = Doacao.objects.all()
+    return render(request, 'associacao/esportes.html', {
+        'esportes': esportes,
+        'clientes': clientes,
+        'doacoes': doacoes,
+    })
+
+
+# =========================
+# DIRETORIA
+# =========================
+
+def diretoria(request):
+    diretoria = Diretoria.objects.all()
+    return render(request, 'associacao/diretoria.html', {'diretoria': diretoria})
+
+
+# =========================
+# EVENTOS
+# =========================
+
+def eventos(request):
+    eventos = Evento.objects.order_by('-data')
+    return render(request, 'associacao/evento.html', {'eventos': eventos})
 
 
 # =========================

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Parceiro, Noticia, Historia, Curso, Esporte, Cliente, Doacao, Socio, Historico, IdentificacaoLog
+from .models import Parceiro, Noticia, Historia, Curso, Esporte, Diretoria, Evento, Cliente, Doacao, Socio, Historico, IdentificacaoLog
 
 
 # Customizar títulos do admin
@@ -62,6 +62,36 @@ class EsporteAdmin(admin.ModelAdmin):
     list_display = ('nome', 'tem_imagem')
     search_fields = ('nome', 'descricao')
     ordering = ('nome',)
+    
+    def tem_imagem(self, obj):
+        return '✅ Sim' if obj.imagem else '❌ Não'
+    tem_imagem.short_description = 'Tem Imagem'
+
+
+# =========================
+# DIRETORIA
+# =========================
+@admin.register(Diretoria)
+class DiretoriaAdmin(admin.ModelAdmin):
+    list_display = ('nome', 'cargo', 'tem_foto')
+    search_fields = ('nome', 'cargo')
+    ordering = ('nome',)
+    
+    def tem_foto(self, obj):
+        return '✅ Sim' if obj.foto else '❌ Não'
+    tem_foto.short_description = 'Tem Foto'
+
+
+# =========================
+# EVENTOS
+# =========================
+@admin.register(Evento)
+class EventoAdmin(admin.ModelAdmin):
+    list_display = ('titulo', 'data', 'tem_imagem')
+    search_fields = ('titulo', 'descricao')
+    list_filter = ('data',)
+    ordering = ('-data',)
+    date_hierarchy = 'data'
     
     def tem_imagem(self, obj):
         return '✅ Sim' if obj.imagem else '❌ Não'

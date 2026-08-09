@@ -5,3 +5,7 @@ db.sqlite3
 __pycache__/
 .venv/
 staticfiles/
+public/
+media/
+node_modules/
+*.swp

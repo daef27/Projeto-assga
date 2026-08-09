@@ -68,6 +68,33 @@ class Esporte(models.Model):
 
 
 # =========================
+# DIRETORIA
+# =========================
+
+class Diretoria(models.Model):
+    nome = models.CharField(max_length=200)
+    cargo = models.CharField(max_length=200)
+    foto = models.ImageField(upload_to='diretoria/', blank=True, null=True)
+
+    def __str__(self):
+        return self.nome
+
+
+# =========================
+# EVENTOS
+# =========================
+
+class Evento(models.Model):
+    titulo = models.CharField(max_length=200)
+    descricao = models.TextField()
+    data = models.DateField()
+    imagem = models.ImageField(upload_to='eventos/', blank=True, null=True)
+
+    def __str__(self):
+        return self.titulo
+
+
+# =========================
 # CLIENTES / PATROCINADORES
 # =========================
 
