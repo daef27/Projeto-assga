@@ -1,0 +1,156 @@
+{% extends "admin/base_site.html" %}
+{% load static i18n %}
+
+{% block title %}Login Admin | ASSGA{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/admin_custom.css' %}">
+    <style>
+    /* Login do admin customizado com tema ASSGA */
+    body.login {
+        background: linear-gradient(160deg,#0f172a 0%,#0c4a6e 60%,#0055aa 100%) !important;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    body.login #container {
+        background: rgba(255,255,255,0.08) !important;
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255,255,255,0.14);
+        border-radius: 28px;
+        box-shadow: 0 24px 60px rgba(15,23,42,0.35);
+        padding: 40px 36px;
+        max-width: 420px;
+        width: 100%;
+        margin: 20px;
+        color: #fff;
+    }
+    body.login #header {
+        background: transparent !important;
+        color: #fff;
+        border-bottom: none;
+        text-align: center;
+        padding: 0 0 16px;
+    }
+    body.login #header h1 {
+        color: #fff;
+        font-size: 24px;
+        letter-spacing: 0.02em;
+    }
+    body.login #content {
+        padding: 0;
+    }
+    body.login form label {
+        color: #cbd5e1;
+        font-weight: 700;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+    body.login form input[type="text"],
+    body.login form input[type="password"] {
+        width: 100%;
+        padding: 14px 16px;
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,0.2);
+        background: rgba(255,255,255,0.1);
+        color: #fff;
+        font-size: 15px;
+        outline: none;
+        transition: 0.3s;
+        box-sizing: border-box;
+    }
+    body.login form input:focus {
+        border-color: #38bdf8;
+        box-shadow: 0 0 12px rgba(56,189,248,0.3);
+        background: rgba(255,255,255,0.15);
+    }
+    body.login .submit-row {
+        padding: 0;
+        margin: 20px 0 0;
+        text-align: center;
+    }
+    body.login .submit-row input {
+        width: 100%;
+        padding: 15px;
+        border: none;
+        border-radius: 12px;
+        background: linear-gradient(90deg,#1d4ed8,#38bdf8);
+        color: #fff;
+        font-weight: 800;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+        letter-spacing: 0.03em;
+    }
+    body.login .submit-row input:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 25px rgba(56,189,248,0.4);
+        background: linear-gradient(90deg,#1e40af,#0ea5e9);
+    }
+    body.login .errornote {
+        background: rgba(220,53,69,0.25);
+        border: 1px solid #dc3545;
+        color: #ff9a9a;
+        border-radius: 12px;
+        padding: 14px 18px;
+        font-weight: 700;
+    }
+    body.login .password-reset-link {
+        margin-top: 16px;
+        text-align: center;
+    }
+    body.login .password-reset-link a {
+        color: #7dd3fc;
+        font-weight: 600;
+    }
+    body.login .password-reset-link a:hover {
+        color: #38bdf8;
+    }
+    </style>
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="/admin/">🔐 Login Administrativo ASSGA</a></h1>
+{% endblock %}
+
+{% block content %}
+{% if form.errors and not form.non_field_errors %}
+<p class="errornote">
+{% blocktrans count counter=form.errors.items|length %}Por favor corrija o erro abaixo.{% plural %}Por favor corrija os erros abaixo.{% endblocktrans %}
+</p>
+{% endif %}
+
+{% if form.non_field_errors %}
+{% for error in form.non_field_errors %}
+<p class="errornote">{{ error }}</p>
+{% endfor %}
+{% endif %}
+
+<div id="content-main" class="login-form">
+    <form action="{{ app_path }}" method="post" id="login-form">
+        {% csrf_token %}
+        <div class="form-row">
+            {{ form.username.errors }}
+            <label for="id_username">{% trans 'Usuário:' %}</label>
+            {{ form.username }}
+        </div>
+        <div class="form-row">
+            {{ form.password.errors }}
+            <label for="id_password">{% trans 'Senha:' %}</label>
+            {{ form.password }}
+        </div>
+        <input type="hidden" name="next" value="{{ next }}">
+        <div class="submit-row">
+            <input type="submit" value="{% trans 'Entrar no Painel' %}">
+        </div>
+    </form>
+
+    <div class="password-reset-link">
+        <a href="/">← Voltar ao site</a>
+    </div>
+</div>
+
+{% endblock %}

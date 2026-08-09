@@ -1,0 +1,492 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Admin | ASSGA</title>
+<link rel="icon" type="image/png" href="{% static 'images/assga-logo.png' %}">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(160deg,#0f172a 0%,#0c4a6e 60%,#0055aa 100%);
+    color:#fff;
+}
+
+.login-card {
+    width:100%;
+    max-width:420px;
+    background:rgba(255,255,255,0.08);
+    padding:40px 36px;
+    border-radius:28px;
+    box-shadow:0 24px 60px rgba(15,23,42,0.35);
+    backdrop-filter:blur(16px);
+    border:1px solid rgba(255,255,255,0.14);
+    text-align:center;
+    margin:20px;
+}
+
+.logo img {
+    width:90px;
+    height:auto;
+    border-radius:16px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.3);
+    margin-bottom:16px;
+}
+
+.login-card h1 {
+    font-size:26px;
+    margin-bottom:6px;
+    letter-spacing:0.02em;
+}
+
+.login-card .subtitle {
+    color:#cbd5e1;
+    font-size:14px;
+    margin-bottom:28px;
+}
+
+.form-group {
+    margin-bottom:18px;
+    text-align:left;
+}
+
+.form-group label {
+    display:block;
+    color:#cbd5e1;
+    font-weight:700;
+    margin-bottom:8px;
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+}
+
+.form-group input {
+    width:100%;
+    padding:14px 16px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,0.2);
+    background:rgba(255,255,255,0.1);
+    color:#fff;
+    font-size:15px;
+    outline:none;
+    transition:0.3s;
+}
+
+.form-group input::placeholder {
+    color:rgba(255,255,255,0.5);
+}
+
+.form-group input:focus {
+    border-color:#38bdf8;
+    box-shadow:0 0 12px rgba(56,189,248,0.3);
+    background:rgba(255,255,255,0.15);
+}
+
+.btn {
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(90deg,#1d4ed8,#38bdf8);
+    color:#fff;
+    font-weight:800;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+    letter-spacing:0.03em;
+    margin-top:8px;
+}
+
+.btn:hover {
+    transform:translateY(-3px);
+    box-shadow:0 12px 25px rgba(56,189,248,0.4);
+    background:linear-gradient(90deg,#1e40af,#0ea5e9);
+}
+
+.error-msg {
+    padding:14px 18px;
+    border-radius:12px;
+    background:rgba(220,53,69,0.25);
+    border:1px solid #dc3545;
+    color:#ff9a9a;
+    font-weight:700;
+    margin-bottom:18px;
+    text-align:left;
+}
+
+.backlink {
+    display:inline-block;
+    margin-top:20px;
+    color:#7dd3fc;
+    text-decoration:none;
+    font-size:14px;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.backlink:hover {
+    color:#38bdf8;
+    text-decoration:underline;
+}
+
+.footer-text {
+    margin-top:24px;
+    font-size:12px;
+    color:#94a3b8;
+}
+
+/* ===== OVERVIEW / ESTATÍSTICAS ===== */
+.overview {
+    width:100%;
+    max-width:1100px;
+    margin:0 auto 40px;
+    color:#fff;
+}
+.overview-head {
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom:22px;
+    background:linear-gradient(135deg,#ffffff,#f0f7ff);
+    border:1px solid #e2edff;
+    border-radius:20px;
+    padding:20px 26px;
+    box-shadow:0 10px 30px rgba(0,85,170,0.08);
+}
+.overview-head .icon {
+    width:52px;
+    height:52px;
+    border-radius:14px;
+    background:linear-gradient(135deg,#0055aa,#38bdf8);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+    color:#fff;
+    box-shadow:0 8px 20px rgba(0,85,170,0.3);
+}
+.overview-head h2 { font-size:22px; color:#0f172a; margin:0; }
+.overview-head p { font-size:14px; color:#4b6b8f; margin:2px 0 0; }
+
+.statsgrid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:16px;
+    margin-bottom:28px;
+}
+.statcard{
+    background:linear-gradient(135deg,#ffffff,#f4f9ff);
+    border:1px solid #e2edff;
+    border-bottom:4px solid #38bdf8;
+    border-radius:18px;
+    padding:20px 16px;
+    text-align:center;
+    box-shadow:0 8px 22px rgba(0,85,170,0.08);
+    transition:transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.statcard:hover{
+    transform:translateY(-4px);
+    box-shadow:0 16px 40px rgba(0,85,170,0.16);
+    border-color:#0055aa;
+}
+.statcard .emoji{
+    font-size:30px;
+    display:inline-block;
+    background:rgba(56,189,248,0.15);
+    padding:10px;
+    border-radius:14px;
+}
+.statcard .num{
+    font-size:30px;
+    font-weight:900;
+    color:#0055aa;
+    margin:8px 0 2px;
+}
+.statcard .label{
+    font-size:12px;
+    color:#4b6b8f;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    font-weight:700;
+}
+
+.overview-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:20px;
+}
+.ov-box{
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.14);
+    border-radius:20px;
+    padding:20px 22px;
+    backdrop-filter:blur(16px);
+}
+.ov-box h3{
+    font-size:16px;
+    color:#7dd3fc;
+    margin:0 0 12px;
+    padding-bottom:10px;
+    border-bottom:1px solid rgba(255,255,255,0.15);
+}
+.ov-box ul{
+    list-style:none;
+    margin:0;
+    padding:0;
+}
+.ov-box li{
+    padding:9px 0;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+    color:#e2e8f0;
+    font-size:14px;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:6px;
+}
+.ov-box li:last-child{ border-bottom:none; }
+.ov-box li small{ color:#94a3b8; }
+.ov-empty{ color:#94a3b8; text-align:center; padding:10px; font-size:14px; }
+.tag{
+    font-size:11px;
+    font-weight:800;
+    padding:3px 10px;
+    border-radius:20px;
+    background:rgba(56,189,248,0.2);
+    color:#7dd3fc;
+    white-space:nowrap;
+}
+.tag-green{ background:rgba(25,135,84,0.25); color:#7ee2a8; }
+.tag-red{ background:rgba(220,53,69,0.25); color:#ff9a9a; }
+.tag-yellow{ background:rgba(255,193,7,0.2); color:#ffd75e; }
+.overview-sec-title{
+    text-align:center;
+    font-size:26px;
+    margin:30px 0 6px;
+    color:#fff;
+}
+.overview-sec-sub{
+    text-align:center;
+    color:#cbd5e1;
+    font-size:14px;
+    margin-bottom:24px;
+}
+</style>
+</head>
+<body style="flex-direction:column; padding:40px 16px;">
+
+<!-- ===== VISÃO GERAL DA ASSOCIAÇÃO ===== -->
+<div class="overview">
+    <div class="overview-head">
+        <div class="icon">📊</div>
+        <div>
+            <h2>Visão Geral da Associação</h2>
+            <p>Resumo de todos os dados cadastrados.</p>
+        </div>
+    </div>
+
+    <div class="statsgrid">
+        <div class="statcard"><div class="emoji">👥</div><div class="num">{{ contagens.socios|default:0 }}</div><div class="label">Sócios</div></div>
+        <div class="statcard"><div class="emoji">📰</div><div class="num">{{ contagens.noticias|default:0 }}</div><div class="label">Notícias</div></div>
+        <div class="statcard"><div class="emoji">📅</div><div class="num">{{ contagens.eventos|default:0 }}</div><div class="label">Eventos</div></div>
+        <div class="statcard"><div class="emoji">🤝</div><div class="num">{{ contagens.parceiros|default:0 }}</div><div class="label">Parceiros</div></div>
+        <div class="statcard"><div class="emoji">📜</div><div class="num">{{ contagens.historias|default:0 }}</div><div class="label">Histórias</div></div>
+        <div class="statcard"><div class="emoji">🎓</div><div class="num">{{ contagens.cursos|default:0 }}</div><div class="label">Cursos</div></div>
+        <div class="statcard"><div class="emoji">🏆</div><div class="num">{{ contagens.esportes|default:0 }}</div><div class="label">Esportes</div></div>
+        <div class="statcard"><div class="emoji">🗳️</div><div class="num">{{ contagens.diretoria|default:0 }}</div><div class="label">Diretoria</div></div>
+        <div class="statcard"><div class="emoji">💼</div><div class="num">{{ contagens.clientes|default:0 }}</div><div class="label">Clientes</div></div>
+        <div class="statcard"><div class="emoji">💝</div><div class="num">{{ contagens.doacoes|default:0 }}</div><div class="label">Doações</div></div>
+        <div class="statcard"><div class="emoji">🗓️</div><div class="num">{{ contagens.historicos|default:0 }}</div><div class="label">Históricos</div></div>
+        <div class="statcard"><div class="emoji">🖥️</div><div class="num">{{ contagens.logs|default:0 }}</div><div class="label">Logs</div></div>
+    </div>
+
+    <h2 class="overview-sec-title">📋 Registros Recentes</h2>
+    <p class="overview-sec-sub">Últimos cadastros realizados na associação.</p>
+
+    <div class="overview-grid">
+
+        <div class="ov-box">
+            <h3>👥 Sócios</h3>
+            <ul>
+                {% for s in socios %}
+                    <li><span>{{ s.nome }}</span>
+                        <span class="tag {% if s.status_pagamento == 'Ativo' %}tag-green{% else %}tag-red{% endif %}">{{ s.status_pagamento }}</span>
+                        <small>Nº {{ s.numero_socio }} • {{ s.cpf }}</small>
+                    </li>
+                {% empty %}
+                    <li class="ov-empty">Nenhum sócio cadastrado.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="ov-box">
+            <h3>📰 Notícias</h3>
+            <ul>
+                {% for n in noticias %}
+                    <li><span>{{ n.titulo }}</span><small>{{ n.data|date:"d/m/Y" }}</small></li>
+                {% empty %}
+                    <li class="ov-empty">Nenhuma notícia cadastrada.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="ov-box">
+            <h3>📅 Eventos</h3>
+            <ul>
+                {% for e in eventos %}
+                    <li><span>{{ e.titulo }}</span><small>{{ e.data }}</small></li>
+                {% empty %}
+                    <li class="ov-empty">Nenhum evento cadastrado.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="ov-box">
+            <h3>🤝 Parceiros</h3>
+            <ul>
+                {% for p in parceiros %}
+                    <li><span>{{ p.nome }}</span>
+                        {% if p.logo %}<span class="tag tag-green">Logo</span>{% else %}<span class="tag tag-red">Sem logo</span>{% endif %}
+                    </li>
+                {% empty %}
+                    <li class="ov-empty">Nenhum parceiro cadastrado.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="ov-box">
+            <h3>📜 Histórias</h3>
+            <ul>
+                {% for h in historias %}
+                    <li><span>{{ h.titulo|default:"História" }}</span><small>{{ h.data|date:"d/m/Y" }}</small></li>
+                {% empty %}
+                    <li class="ov-empty">Nenhuma história cadastrada.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="ov-box">
+            <h3>🎓 Cursos</h3>
+            <ul>
+                {% for c in cursos %}
+                    <li><span>{{ c.titulo }}</span><small>R$ {{ c.valor }}</small></li>
+                {% empty %}
+                    <li class="ov-empty">Nenhum curso cadastrado.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="ov-box">
+            <h3>🏆 Esportes</h3>
+            <ul>
+                {% for x in esportes %}
+                    <li><span>{{ x.nome }}</span>
+                        {% if x.imagem %}<span class="tag tag-green">Imagem</span>{% else %}<span class="tag tag-red">Sem imagem</span>{% endif %}
+                    </li>
+                {% empty %}
+                    <li class="ov-empty">Nenhum esporte cadastrado.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="ov-box">
+            <h3>🗳️ Diretoria</h3>
+            <ul>
+                {% for d in diretoria %}
+                    <li><span>{{ d.nome }}</span><span class="tag">{{ d.cargo }}</span></li>
+                {% empty %}
+                    <li class="ov-empty">Nenhum membro da diretoria cadastrado.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="ov-box">
+            <h3>💼 Clientes</h3>
+            <ul>
+                {% for cl in clientes %}
+                    <li><span>{{ cl.nome }}</span>
+                        {% if cl.site %}<span class="tag tag-green">Site</span>{% else %}<span class="tag tag-red">Sem site</span>{% endif %}
+                    </li>
+                {% empty %}
+                    <li class="ov-empty">Nenhum cliente cadastrado.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="ov-box">
+            <h3>💝 Doações</h3>
+            <ul>
+                {% for d in doacoes %}
+                    <li><span>{{ d.nome }}</span><span class="tag tag-yellow">R$ {{ d.valor_sugerido }}</span></li>
+                {% empty %}
+                    <li class="ov-empty">Nenhuma doação cadastrada.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="ov-box">
+            <h3>🗓️ Históricos</h3>
+            <ul>
+                {% for h in historicos %}
+                    <li><span>{{ h.socio.nome }}</span><span class="tag tag-yellow">{{ h.ano }}</span></li>
+                {% empty %}
+                    <li class="ov-empty">Nenhum histórico cadastrado.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="ov-box">
+            <h3>🖥️ Logs de Identificação</h3>
+            <ul>
+                {% for l in logs %}
+                    <li><span>{{ l.path|truncatechars:30 }}</span><small>{{ l.timestamp|date:"d/m/Y H:i" }}</small></li>
+                {% empty %}
+                    <li class="ov-empty">Nenhum log registrado.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+<div class="login-card">
+    <div class="logo">
+        <img src="{% static 'images/assga-logo.png' %}" alt="ASSGA">
+    </div>
+    <h1>🔐 Login Administrativo</h1>
+    <div class="subtitle">Acesse o painel da ASSGA</div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="error-msg">❌ {{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+<form method="post" action="{% url 'admin_login' %}">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.GET.next }}">
+        <div class="form-group">
+            <label>Usuário</label>
+            <input type="text" name="username" placeholder="Digite seu usuário" required autofocus>
+        </div>
+        <div class="form-group">
+            <label>Senha</label>
+            <input type="password" name="password" placeholder="Digite sua senha" required>
+        </div>
+        <button type="submit" class="btn">Entrar no Painel</button>
+    </form>
+
+    <a class="backlink" href="/">← Voltar ao site</a>
+
+    <div class="footer-text">© 2026 ASSGA - Painel Administrativo</div>
+</div>
+
+</body>
+</html>

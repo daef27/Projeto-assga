@@ -49,6 +49,12 @@ class Curso(models.Model):
     descricao = models.TextField()
     imagem = models.ImageField(upload_to='cursos/', blank=True, null=True)
     data = models.DateField()
+    valor = models.DecimalField(
+        max_digits=8,
+        decimal_places=2,
+        default=400.00,
+        verbose_name="Valor (R$)"
+    )
 
     def __str__(self):
         return self.titulo

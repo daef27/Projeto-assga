@@ -13,7 +13,9 @@ urlpatterns = [
     path('inscricao/', views.inscricao, name="inscricao"),
     path('login/', views.socio_login, name="login"),
     path('carteira/', views.carteira, name="carteira"),
-    path('identificacao/', views.identificacao, name="identificacao"),
+path('identificacao/', views.identificacao, name="identificacao"),
     path('logout/', views.logout_view, name="logout"),
     path('adminpainel/', views.adminpainel, name="adminpainel"),
+    path('admin-login/', views.admin_login, name="admin_login"),
+    path('admin-logout/', views.admin_logout, name="admin_logout"),
 ]

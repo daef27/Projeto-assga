@@ -43,7 +43,7 @@ class NoticiaAdmin(admin.ModelAdmin):
 # =========================
 @admin.register(Curso)
 class CursoAdmin(admin.ModelAdmin):
-    list_display = ('titulo', 'data', 'tem_imagem')
+    list_display = ('titulo', 'data', 'valor', 'tem_imagem')
     search_fields = ('titulo', 'descricao')
     list_filter = ('data',)
     ordering = ('-data',)

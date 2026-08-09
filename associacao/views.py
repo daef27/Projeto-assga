@@ -1,8 +1,101 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.exceptions import ObjectDoesNotExist
 from .models import *
 from datetime import datetime
+
+
+# =========================
+# LOGIN ADMIN CUSTOMIZADO
+# =========================
+
+def redirect_admin_login(request):
+    """Redireciona /admin/login/ para a tela de login customizada, preservando o 'next'."""
+    next_url = request.GET.get('next', '')
+    if next_url:
+        return redirect(f"{reverse('admin_login')}?next={next_url}")
+    return redirect('admin_login')
+
+
+def admin_login(request):
+    """Página de login customizada para o painel administrativo."""
+    if request.user.is_authenticated and request.user.is_staff:
+        return redirect('adminpainel')
+
+    if request.method == 'POST':
+        username = request.POST.get('username', '').strip()
+        password = request.POST.get('password', '').strip()
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            if user.is_staff:
+                login(request, user)
+                next_url = request.POST.get('next', request.GET.get('next', 'adminpainel'))
+                return redirect(next_url if next_url.startswith('/') else 'adminpainel')
+            else:
+                messages.error(request, 'Este usuário não tem permissão de acesso ao painel.')
+        else:
+            messages.error(request, 'Usuário ou senha inválidos.')
+
+    # ---------- CONTAGENS E LISTAGENS (overview) ----------
+    def _count(model):
+        def f():
+            return model.objects.count()
+        return safe_query(f, 0)
+
+    contagens = {
+        'socios': _count(Socio),
+        'noticias': _count(Noticia),
+        'eventos': _count(Evento),
+        'parceiros': _count(Parceiro),
+        'historias': _count(Historia),
+        'cursos': _count(Curso),
+        'esportes': _count(Esporte),
+        'diretoria': _count(Diretoria),
+        'clientes': _count(Cliente),
+        'doacoes': _count(Doacao),
+        'historicos': _count(Historico),
+        'logs': _count(IdentificacaoLog),
+    }
+
+    socios = safe_all(Socio.objects.order_by('-id')[:8])
+    noticias = safe_all(Noticia.objects.order_by('-id')[:8])
+    eventos = safe_all(Evento.objects.order_by('-id')[:8])
+    parceiros = safe_all(Parceiro.objects.all()[:8])
+    historias = safe_all(Historia.objects.order_by('-id')[:8])
+    cursos = safe_all(Curso.objects.order_by('-id')[:8])
+    esportes = safe_all(Esporte.objects.all()[:8])
+    diretoria = safe_all(Diretoria.objects.all()[:8])
+    clientes = safe_all(Cliente.objects.all()[:8])
+    doacoes = safe_all(Doacao.objects.all()[:8])
+    historicos = safe_all(Historico.objects.order_by('-id')[:8])
+    logs = safe_all(IdentificacaoLog.objects.order_by('-id')[:8])
+
+    return render(request, 'associacao/admin_login.html', {
+        'contagens': contagens,
+        'socios': socios,
+        'noticias': noticias,
+        'eventos': eventos,
+        'parceiros': parceiros,
+        'historias': historias,
+        'cursos': cursos,
+        'esportes': esportes,
+        'diretoria': diretoria,
+        'clientes': clientes,
+        'doacoes': doacoes,
+        'historicos': historicos,
+        'logs': logs,
+    })
+
+
+def admin_logout(request):
+    """Desloga o usuário do painel administrativo."""
+    logout(request)
+    return redirect('admin_login')
 
 
 # =========================
@@ -175,7 +268,11 @@ def home(request):
 # =========================
 
 def cursos(request):
-    return render(request, 'associacao/esportes.html', {'parceiros': get_parceiros()})
+    cursos = safe_all(Curso.objects.all())
+    return render(request, 'associacao/curso.html', {
+        'cursos': cursos,
+        'parceiros': get_parceiros(),
+    })
 
 
 # =========================

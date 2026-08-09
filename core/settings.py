@@ -9,6 +9,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-dev-key-change-in-pro
 DEBUG = os.environ.get("DEBUG", "True").lower() in ("true", "1", "yes")
 
 ALLOWED_HOSTS = [
+    "testserver",
     "localhost",
     "127.0.0.1",
     ".app.github.dev",
@@ -54,7 +55,6 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "core.middleware.AutoLoginAdminMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -64,7 +64,7 @@ ROOT_URLCONF = "core.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -119,14 +119,9 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 
-# Auto-login do admin (abre /admin/ direto, sem tela de login)
-# Usado pelo AutoLoginAdminMiddleware. Configurável via env vars.
-ADMIN_AUTO_USER = os.environ.get("ADMIN_AUTO_USER", "admin")
-ADMIN_AUTO_PASSWORD = os.environ.get("ADMIN_AUTO_PASSWORD", "admin123")
-
 PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
 ]
 
-LOGIN_REDIRECT_URL = "/admin/"
-LOGIN_URL = "/admin/login/"
+LOGIN_REDIRECT_URL = "/adminpainel/"
+LOGIN_URL = "/admin-login/"
