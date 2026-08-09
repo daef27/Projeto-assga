@@ -1,19 +1,10 @@
-# TODO - Configuração de Deploy (Vercel)
+# 🗂️ TODO — Painel Administrativo ASSGA
 
 ## Objetivo
-Corrigir e otimizar a configuração de deploy do site Django ASSGA para a Vercel.
+Exibir a interface visual e as listagens de informações de TODOS os modelos registrados no painel administrativo do site.
 
 ## Passos
 
-- [x] 1. Corrigir `vercel.json` (entrada WSGI `core/wsgi.py`, rotas static/media, env vars `DEBUG`)
-- [x] 2. Melhorar `build.sh` (migrations, superuser opcional, collectstatic, criar `public/`)
-- [x] 3. Preencher/corrigir `build_files.sh`
-- [x] 4. Revisar `core/wsgi.py` (manter como entrada Vercel)
-- [x] 5. Revisar `wsgi_config.py` (evitar conflito)
-- [x] 6. Atualizar `.gitignore` (adicionar `public/`, `media/`, etc)
-- [ ] 7. Testar localmente (migrate + collectstatic + runserver)
-- [ ] 8. Documentar instruções de deploy (README)
-
-## Observações
-- `requirements.txt` tem `Django==6.0.5` (válido, existe no pip)
-- SQLite NÃO persiste na Vercel — para dados permanentes usar PostgreSQL (`DATABASE_URL`)
+- [x] 1. Atualizar `associacao/views.py`: coletar dados e contagens de todos os modelos no `adminpainel()`.
+- [x] 2. Redesenhar `associacao/templates/associacao/adminpainel.html`: adicionar seção de estatísticas (overview) e listagens abrangentes de todos os modelos.
+- [ ] 3. Testar o painel administrativo em execução e verificar a renderização das listas.

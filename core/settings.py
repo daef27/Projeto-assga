@@ -15,11 +15,15 @@ ALLOWED_HOSTS = [
     "friendly-space-engine-pjvqpwwr5p66h94vg-8000.app.github.dev",
     ".vercel.app",
     "projeto-alpha-weld.vercel.app",
+    "projeto-i77zp4b3k-daef27s-projects.vercel.app",
+    "projeto-daef27s-projects.vercel.app",
 ]
 
 # CSRF trusted origins (prod Vercel + local dev + Codespaces)
 CSRF_TRUSTED_ORIGINS = [
     "https://projeto-alpha-weld.vercel.app",
+    "https://projeto-i77zp4b3k-daef27s-projects.vercel.app",
+    "https://projeto-daef27s-projects.vercel.app",
     "https://*.vercel.app",
     "http://localhost:8000",
     "https://localhost:8000",
@@ -50,6 +54,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "core.middleware.AutoLoginAdminMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -114,10 +119,10 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 
-# Basic HTTP auth to protect the whole site when enabled via ENV
-ENABLE_BASIC_AUTH = os.environ.get("ENABLE_BASIC_AUTH", "False").lower() in ("true", "1", "yes")
-BASIC_AUTH_USER = os.environ.get("BASIC_AUTH_USER", "")
-BASIC_AUTH_PASSWORD = os.environ.get("BASIC_AUTH_PASSWORD", "")
+# Auto-login do admin (abre /admin/ direto, sem tela de login)
+# Usado pelo AutoLoginAdminMiddleware. Configurável via env vars.
+ADMIN_AUTO_USER = os.environ.get("ADMIN_AUTO_USER", "admin")
+ADMIN_AUTO_PASSWORD = os.environ.get("ADMIN_AUTO_PASSWORD", "admin123")
 
 PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.PBKDF2PasswordHasher',

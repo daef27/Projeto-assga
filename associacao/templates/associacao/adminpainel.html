@@ -1,0 +1,570 @@
+{% extends 'associacao/base.html' %}
+
+{% block title %}Painel de Cadastro Rápido{% endblock %}
+
+{% block content %}
+
+<style>
+
+.adminpainel{
+padding:30px;
+background:linear-gradient(180deg,#0f172a,#0c4a6e);
+min-height:100vh;
+}
+
+.adminpainel h1{
+color:white;
+font-size:32px;
+margin-bottom:10px;
+}
+
+.adminpainel .subtitle{
+color:#cbd5e1;
+margin-bottom:25px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:24px;
+}
+
+.box{
+background:rgba(255,255,255,0.08);
+color:white;
+padding:28px;
+border-radius:28px;
+box-shadow:0 24px 60px rgba(15,23,42,0.22);
+backdrop-filter:blur(16px);
+border:1px solid rgba(255,255,255,0.14);
+transition:transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.box:hover{
+transform:translateY(-6px);
+box-shadow:0 28px 70px rgba(15,23,42,0.32);
+}
+
+.box h2{
+font-size:24px;
+margin-bottom:18px;
+padding-bottom:12px;
+border-bottom:2px solid rgba(255,255,255,0.15);
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.box label{
+display:block;
+color:#cbd5e1;
+font-weight:700;
+margin:14px 0 6px;
+font-size:14px;
+text-transform:uppercase;
+letter-spacing:0.05em;
+}
+
+.box input,
+.box textarea{
+width:100%;
+padding:12px 15px;
+border-radius:10px;
+border:1px solid rgba(255,255,255,0.2);
+background:rgba(255,255,255,0.1);
+color:white;
+font-size:15px;
+outline:none;
+transition:0.3s;
+}
+
+.box input:focus,
+.box textarea:focus{
+border-color:#38bdf8;
+box-shadow:0 0 12px rgba(56,189,248,0.3);
+background:rgba(255,255,255,0.15);
+}
+
+.box input[type="file"]{
+padding:8px;
+}
+
+.box textarea{
+min-height:120px;
+resize:vertical;
+}
+
+.btn{
+display:inline-block;
+width:100%;
+margin-top:20px;
+padding:14px;
+border:none;
+border-radius:12px;
+background:linear-gradient(90deg,#1d4ed8,#38bdf8);
+color:white;
+font-weight:800;
+font-size:16px;
+cursor:pointer;
+transition:0.3s;
+letter-spacing:0.03em;
+}
+
+.btn:hover{
+transform:translateY(-3px);
+box-shadow:0 12px 25px rgba(56,189,248,0.4);
+background:linear-gradient(90deg,#1e40af,#0ea5e9);
+}
+
+.alert{
+padding:14px 18px;
+border-radius:12px;
+margin-bottom:16px;
+font-weight:700;
+}
+
+.alert-success{
+background:rgba(25,135,84,0.25);
+border:1px solid #198754;
+color:#7ee2a8;
+}
+
+.alert-error{
+background:rgba(220,53,69,0.25);
+border:1px solid #dc3545;
+color:#ff9a9a;
+}
+
+.boxtop{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+margin-bottom:22px;
+flex-wrap:wrap;
+}
+
+.navlinks{
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+margin-bottom:20px;
+}
+
+.navlinks a{
+padding:10px 18px;
+border-radius:10px;
+background:rgba(255,255,255,0.1);
+color:white;
+text-decoration:none;
+font-weight:700;
+transition:0.3s;
+border:1px solid rgba(255,255,255,0.15);
+}
+
+.navlinks a:hover{
+background:#38bdf8;
+transform:translateY(-2px);
+}
+
+.lista{
+margin-top:20px;
+}
+
+.lista h3{
+font-size:18px;
+margin-bottom:10px;
+color:#7dd3fc;
+}
+
+.lista ul{
+list-style:none;
+background:rgba(255,255,255,0.06);
+border-radius:10px;
+padding:10px;
+}
+
+.lista li{
+padding:10px;
+border-bottom:1px solid rgba(255,255,255,0.1);
+color:#e2e8f0;
+}
+
+.lista li:last-child{
+border-bottom:none;
+}
+
+.lista li small{
+color:#94a3b8;
+display:block;
+}
+
+.empty{
+color:#94a3b8;
+text-align:center;
+padding:12px;
+}
+
+/* ===== ESTATÍSTICAS (OVERVIEW) ===== */
+.statsgrid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+gap:16px;
+margin-bottom:28px;
+}
+
+.statcard{
+background:rgba(255,255,255,0.08);
+border:1px solid rgba(255,255,255,0.14);
+border-radius:18px;
+padding:20px 16px;
+text-align:center;
+backdrop-filter:blur(12px);
+transition:transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.statcard:hover{
+transform:translateY(-4px);
+box-shadow:0 16px 40px rgba(15,23,42,0.3);
+background:rgba(255,255,255,0.14);
+}
+
+.statcard .emoji{
+font-size:30px;
+}
+
+.statcard .num{
+font-size:30px;
+font-weight:900;
+color:#38bdf8;
+margin:6px 0 2px;
+}
+
+.statcard .label{
+font-size:12px;
+color:#cbd5e1;
+text-transform:uppercase;
+letter-spacing:0.05em;
+font-weight:700;
+}
+
+/* ===== LISTAGENS ABRANGENTES ===== */
+.lista-item{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.lista-item .tag{
+font-size:11px;
+font-weight:800;
+padding:3px 10px;
+border-radius:20px;
+background:rgba(56,189,248,0.2);
+color:#7dd3fc;
+white-space:nowrap;
+}
+
+.lista-item .tag-green{
+background:rgba(25,135,84,0.25);
+color:#7ee2a8;
+}
+
+.lista-item .tag-red{
+background:rgba(220,53,69,0.25);
+color:#ff9a9a;
+}
+
+.lista-item .tag-yellow{
+background:rgba(255,193,7,0.2);
+color:#ffd75e;
+}
+
+.grid3{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:24px;
+margin-bottom:24px;
+}
+
+@media(max-width:600px){
+.adminpainel{padding:12px;}
+.box{padding:20px;}
+}
+
+</style>
+
+
+<div class="adminpainel">
+
+<div class="boxtop">
+<div>
+    <h1>⚡ Painel de Cadastro Rápido</h1>
+    <div class="subtitle">Cadastre sócios, notícias e eventos de forma rápida.</div>
+</div>
+</div>
+
+<div class="navlinks">
+    <a href="/admin/">📊 Admin Padrão</a>
+    <a href="/">🏠 Voltar ao Site</a>
+</div>
+
+<!-- VISÃO GERAL (ESTATÍSTICAS) -->
+<div class="statsgrid">
+    <div class="statcard"><div class="emoji">👥</div><div class="num">{{ contagens.socios|default:0 }}</div><div class="label">Sócios</div></div>
+    <div class="statcard"><div class="emoji">📰</div><div class="num">{{ contagens.noticias|default:0 }}</div><div class="label">Notícias</div></div>
+    <div class="statcard"><div class="emoji">📅</div><div class="num">{{ contagens.eventos|default:0 }}</div><div class="label">Eventos</div></div>
+    <div class="statcard"><div class="emoji">🤝</div><div class="num">{{ contagens.parceiros|default:0 }}</div><div class="label">Parceiros</div></div>
+    <div class="statcard"><div class="emoji">📜</div><div class="num">{{ contagens.historias|default:0 }}</div><div class="label">Histórias</div></div>
+    <div class="statcard"><div class="emoji">🎓</div><div class="num">{{ contagens.cursos|default:0 }}</div><div class="label">Cursos</div></div>
+    <div class="statcard"><div class="emoji">🏆</div><div class="num">{{ contagens.esportes|default:0 }}</div><div class="label">Esportes</div></div>
+    <div class="statcard"><div class="emoji">👥</div><div class="num">{{ contagens.diretoria|default:0 }}</div><div class="label">Diretoria</div></div>
+    <div class="statcard"><div class="emoji">💼</div><div class="num">{{ contagens.clientes|default:0 }}</div><div class="label">Clientes</div></div>
+    <div class="statcard"><div class="emoji">💝</div><div class="num">{{ contagens.doacoes|default:0 }}</div><div class="label">Doações</div></div>
+    <div class="statcard"><div class="emoji">🗓️</div><div class="num">{{ contagens.historicos|default:0 }}</div><div class="label">Históricos</div></div>
+    <div class="statcard"><div class="emoji">🖥️</div><div class="num">{{ contagens.logs|default:0 }}</div><div class="label">Logs</div></div>
+</div>
+
+{% if mensagens %}
+    {% for m in mensagens %}
+        <div class="alert alert-success">✅ {{ m }}</div>
+    {% endfor %}
+{% endif %}
+
+{% if erros %}
+    {% for e in erros %}
+        <div class="alert alert-error">❌ {{ e }}</div>
+    {% endfor %}
+{% endif %}
+
+<div class="grid">
+
+<!-- FORMULÁRIO SÓCIO -->
+<div class="box">
+    <h2>👤 Cadastrar Sócio</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="tipo" value="socio">
+        <label>Nome completo</label>
+        <input type="text" name="nome" placeholder="Nome do sócio" required>
+        <label>CPF</label>
+        <input type="text" name="cpf" placeholder="Apenas números ou formatado" required>
+        <label>Nº Sócio (opcional)</label>
+        <input type="text" name="numero_socio" placeholder="Auto se vazio">
+        <label>Senha (padrão: 123456)</label>
+        <input type="text" name="senha" placeholder="123456">
+        <label>Investimento (R$)</label>
+        <input type="number" step="0.01" name="investimento" placeholder="0.00">
+        <button type="submit" class="btn">➕ Cadastrar Sócio</button>
+    </form>
+</div>
+
+<!-- FORMULÁRIO NOTÍCIA -->
+<div class="box">
+    <h2>📰 Cadastrar Notícia</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="tipo" value="noticia">
+        <label>Título</label>
+        <input type="text" name="titulo" placeholder="Título da notícia" required>
+        <label>Texto</label>
+        <textarea name="texto" placeholder="Conteúdo da notícia..." required></textarea>
+        <label>Imagem (opcional)</label>
+        <input type="file" name="imagem" accept="image/*">
+        <button type="submit" class="btn">➕ Cadastrar Notícia</button>
+    </form>
+</div>
+
+<!-- FORMULÁRIO EVENTO -->
+<div class="box">
+    <h2>📅 Cadastrar Evento</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="tipo" value="evento">
+        <label>Título</label>
+        <input type="text" name="titulo" placeholder="Título do evento" required>
+        <label>Descrição</label>
+        <textarea name="descricao" placeholder="Descrição do evento..." required></textarea>
+        <label>Data</label>
+        <input type="date" name="data" required>
+        <label>Imagem (opcional)</label>
+        <input type="file" name="imagem" accept="image/*">
+        <button type="submit" class="btn">➕ Cadastrar Evento</button>
+    </form>
+</div>
+
+</div>
+
+
+<!-- LISTAGENS RECENTES ====== -->
+<div class="grid">
+
+<div class="box lista">
+    <h3>👥 Últimos Sócios</h3>
+    <ul>
+        {% for s in socios %}
+            <li class="lista-item"><span>{{ s.nome }}</span>
+                <span class="tag {% if s.status_pagamento == 'Ativo' %}tag-green{% else %}tag-red{% endif %}">{{ s.status_pagamento }}</span>
+                <small>Nº {{ s.numero_socio }} • CPF {{ s.cpf }}</small>
+            </li>
+        {% empty %}
+            <li class="empty">Nenhum sócio cadastrado.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="box lista">
+    <h3>📰 Últimas Notícias</h3>
+    <ul>
+        {% for n in noticias %}
+            <li class="lista-item"><span>{{ n.titulo }}</span>
+                <small>{{ n.data|date:"d/m/Y" }}</small>
+            </li>
+        {% empty %}
+            <li class="empty">Nenhuma notícia cadastrada.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="box lista">
+    <h3>📅 Últimos Eventos</h3>
+    <ul>
+        {% for e in eventos %}
+            <li class="lista-item"><span>{{ e.titulo }}</span>
+                <span class="tag tag-yellow">{{ e.data }}</span>
+            </li>
+        {% empty %}
+            <li class="empty">Nenhum evento cadastrado.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+</div>
+
+<!-- LISTAGENS ADICIONAIS (TODOS OS MODELOS) -->
+<div class="grid3">
+
+<div class="box lista">
+    <h3>🤝 Parceiros</h3>
+    <ul>
+        {% for p in parceiros %}
+            <li class="lista-item"><span>{{ p.nome }}</span>
+                {% if p.logo %}<span class="tag tag-green">Logo</span>{% else %}<span class="tag tag-red">Sem logo</span>{% endif %}
+            </li>
+        {% empty %}
+            <li class="empty">Nenhum parceiro cadastrado.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="box lista">
+    <h3>📜 Histórias</h3>
+    <ul>
+        {% for h in historias %}
+            <li class="lista-item"><span>{{ h.titulo|default:"História" }}</span>
+                <small>{{ h.data|date:"d/m/Y" }}</small>
+            </li>
+        {% empty %}
+            <li class="empty">Nenhuma história cadastrada.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="box lista">
+    <h3>🎓 Cursos</h3>
+    <ul>
+        {% for c in cursos %}
+            <li class="lista-item"><span>{{ c.titulo }}</span>
+                <span class="tag tag-yellow">{{ c.data }}</span>
+            </li>
+        {% empty %}
+            <li class="empty">Nenhum curso cadastrado.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="box lista">
+    <h3>🏆 Esportes</h3>
+    <ul>
+        {% for e in esportes %}
+            <li class="lista-item"><span>{{ e.nome }}</span>
+                {% if e.imagem %}<span class="tag tag-green">Imagem</span>{% else %}<span class="tag tag-red">Sem imagem</span>{% endif %}
+            </li>
+        {% empty %}
+            <li class="empty">Nenhum esporte cadastrado.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="box lista">
+    <h3>👥 Diretoria</h3>
+    <ul>
+        {% for d in diretoria %}
+            <li class="lista-item"><span>{{ d.nome }}</span>
+                <span class="tag">{{ d.cargo }}</span>
+            </li>
+        {% empty %}
+            <li class="empty">Nenhum membro da diretoria cadastrado.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="box lista">
+    <h3>💼 Clientes</h3>
+    <ul>
+        {% for cl in clientes %}
+            <li class="lista-item"><span>{{ cl.nome }}</span>
+                {% if cl.site %}<span class="tag tag-green">Site</span>{% else %}<span class="tag tag-red">Sem site</span>{% endif %}
+            </li>
+        {% empty %}
+            <li class="empty">Nenhum cliente cadastrado.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="box lista">
+    <h3>💝 Doações</h3>
+    <ul>
+        {% for d in doacoes %}
+            <li class="lista-item"><span>{{ d.nome }}</span>
+                <span class="tag tag-yellow">R$ {{ d.valor_sugerido }}</span>
+            </li>
+        {% empty %}
+            <li class="empty">Nenhuma doação cadastrada.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="box lista">
+    <h3>🗓️ Históricos</h3>
+    <ul>
+        {% for h in historicos %}
+            <li class="lista-item"><span>{{ h.socio.nome }}</span>
+                <span class="tag">{{ h.ano }}</span>
+            </li>
+        {% empty %}
+            <li class="empty">Nenhum histórico cadastrado.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="box lista">
+    <h3>🖥️ Logs de Identificação</h3>
+    <ul>
+        {% for l in logs %}
+            <li class="lista-item"><span>{{ l.path|truncatechars:30 }}</span>
+                <small>{{ l.timestamp|date:"d/m/Y H:i" }}</small>
+            </li>
+        {% empty %}
+            <li class="empty">Nenhum log registrado.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

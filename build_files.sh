@@ -6,9 +6,9 @@ echo "🚀 Iniciando build (build_files.sh)..."
 # Garante o diretório public
 mkdir -p public
 
-# Migrações
+# Migrações (não falha o build se o banco estiver indisponível)
 echo "📦 Aplicando migrações..."
-python3 manage.py migrate --noinput
+python3 manage.py migrate --noinput || echo "⚠️  Aviso: falha ao aplicar migrações (banco de dados indisponível). Continuando o build."
 
 # Coleta estáticos
 echo "🎨 Coletando arquivos estáticos..."

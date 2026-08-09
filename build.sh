@@ -6,9 +6,9 @@ echo "🚀 Iniciando build do ASSGA..."
 # Cria diretório public (compatibilidade com Vercel)
 mkdir -p public
 
-# Roda as migrações do banco de dados
+# Roda as migrações do banco de dados (não falha o build se o banco estiver indisponível)
 echo "📦 Aplicando migrações..."
-python manage.py migrate --noinput
+python manage.py migrate --noinput || echo "⚠️  Aviso: falha ao aplicar migrações (banco de dados indisponível). Continuando o build."
 
 # Cria superusuário se as variáveis de ambiente estiverem definidas
 if [ -n "$DJANGO_SUPERUSER_USERNAME" ] && [ -n "$DJANGO_SUPERUSER_PASSWORD" ]; then
