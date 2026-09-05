@@ -1,5 +1,11 @@
 {
   "version": 2,
+  "builds": [
+    {
+      "src": "wsgi_config.py",
+      "use": "@vercel/python"
+    }
+  ],
   "buildCommand": "bash build.sh",
   "routes": [
     {
@@ -12,7 +18,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "core/wsgi.py"
+      "dest": "wsgi_config.py"
     }
   ],
   "env": {
